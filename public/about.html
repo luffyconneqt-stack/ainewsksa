@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Engine — AI News KSA</title>
+  <meta name="description" content="How Conneqt News is produced and published autonomously.">
+  <link rel="canonical" href="https://ainewsksa.com/about.html">
+  <link rel="alternate" hreflang="en" href="https://ainewsksa.com/about.html">
+  <link rel="alternate" hreflang="ar" href="https://ainewsksa.com/ar/about.html">
+  <link rel="alternate" hreflang="x-default" href="https://ainewsksa.com/">
+  <meta property="og:title" content="The Engine — AI News KSA">
+  <meta property="og:description" content="How Conneqt News is produced and published autonomously.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ainewsksa.com/about.html">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:site_name" content="AI News KSA">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@conneqt">
+  <meta name="twitter:title" content="The Engine — AI News KSA">
+  <meta name="twitter:description" content="How Conneqt News is produced and published autonomously.">
+  <meta name="theme-color" content="#0A0A0A">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%230A0A0A'/%3E%3Ctext x='50' y='62' font-size='52' font-weight='800' text-anchor='middle' fill='%232BFF52' font-family='-apple-system,sans-serif'%3EC.%3C/text%3E%3C/svg%3E">
+  <style>
+:root {
+  --bg: #0A0A0A;
+  --card: #1A1A1A;
+  --ink: #F2F2F2;
+  --muted: #A8A8A8;
+  --faint: #606060;
+  --accent: #2BFF52;
+  --rule: #2A2A2A;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: var(--bg); color: var(--ink); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+html[lang="ar"] { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI Arabic", "Tahoma", "Geeza Pro", "Noto Sans Arabic", Arial, sans-serif; }
+body { min-height: 100vh; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+.wrap-narrow { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+
+header { border-bottom: 1px solid var(--rule); padding: 22px 0; position: sticky; top: 0; background: rgba(10,10,10,0.92); backdrop-filter: blur(8px); z-index: 10; }
+.header-inner { display: flex; align-items: center; justify-content: space-between; }
+.logo { font-weight: 800; font-size: 20px; letter-spacing: 0.5px; color: var(--ink); }
+.logo span { color: var(--accent); }
+.nav { display: flex; align-items: center; }
+.nav a { color: var(--muted); margin-inline-start: 28px; font-size: 14px; letter-spacing: 0.5px; text-transform: uppercase; font-weight: 600; }
+.nav a:hover { color: var(--ink); text-decoration: none; }
+.nav .lang { border: 1px solid var(--rule); padding: 6px 12px; border-radius: 4px; color: var(--accent); font-size: 12px; letter-spacing: 1px; }
+.nav .lang:hover { background: var(--accent); color: #000; }
+html[lang="ar"] .nav a { letter-spacing: 0; text-transform: none; font-size: 15px; }
+
+.hero { padding: 80px 0 48px; border-bottom: 1px solid var(--rule); }
+.hero h1 { font-size: clamp(34px, 5vw, 56px); font-weight: 800; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 20px; }
+html[lang="ar"] .hero h1 { letter-spacing: 0; line-height: 1.25; }
+.hero h1 .accent { color: var(--accent); }
+.hero p { font-size: 18px; color: var(--muted); max-width: 720px; line-height: 1.6; }
+.hero .meta { margin-top: 24px; font-size: 12px; color: var(--faint); letter-spacing: 1.5px; text-transform: uppercase; }
+html[lang="ar"] .hero .meta { letter-spacing: 0; text-transform: none; font-size: 14px; }
+.hero .meta .live::before { content: ""; display: inline-block; width: 8px; height: 8px; background: var(--accent); border-radius: 50%; margin-inline-end: 8px; vertical-align: middle; box-shadow: 0 0 8px var(--accent); }
+
+.list { padding: 56px 0; }
+.list h2 { font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 32px; font-weight: 700; }
+html[lang="ar"] .list h2 { letter-spacing: 0; text-transform: none; font-size: 16px; }
+.article-card { display: block; padding: 28px 0; border-bottom: 1px solid var(--rule); transition: padding 0.2s; }
+.article-card:hover { text-decoration: none; }
+.article-card:hover .article-title { color: var(--accent); }
+.article-card .tags { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--faint); margin-bottom: 8px; }
+html[lang="ar"] .article-card .tags { letter-spacing: 0; text-transform: none; font-size: 13px; }
+.article-card .tags span { color: var(--accent); margin-inline-end: 12px; }
+.article-title { font-size: 26px; font-weight: 700; color: var(--ink); margin-bottom: 12px; line-height: 1.25; transition: color 0.2s; }
+html[lang="ar"] .article-title { line-height: 1.4; }
+.article-card .dek { font-size: 16px; color: var(--muted); line-height: 1.6; max-width: 760px; }
+.article-card .footer-meta { margin-top: 12px; font-size: 12px; color: var(--faint); }
+
+.article-hero { padding: 56px 0 40px; border-bottom: 1px solid var(--rule); }
+.article-hero .tags { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent); font-weight: 700; margin-bottom: 16px; }
+html[lang="ar"] .article-hero .tags { letter-spacing: 0; text-transform: none; font-size: 14px; }
+.article-hero h1 { font-size: clamp(28px, 4vw, 44px); font-weight: 800; line-height: 1.15; letter-spacing: -0.015em; margin-bottom: 20px; }
+html[lang="ar"] .article-hero h1 { letter-spacing: 0; line-height: 1.4; }
+.article-hero .dek { font-size: 19px; color: var(--muted); line-height: 1.55; }
+.article-hero .meta { margin-top: 28px; font-size: 12px; color: var(--faint); letter-spacing: 1.5px; text-transform: uppercase; }
+html[lang="ar"] .article-hero .meta { letter-spacing: 0; text-transform: none; font-size: 14px; }
+.article-hero .meta .sep { margin: 0 12px; color: var(--rule); }
+
+.article-body { padding: 48px 0 64px; }
+.article-body p { font-size: 17px; line-height: 1.75; color: var(--ink); margin-bottom: 22px; }
+html[lang="ar"] .article-body p { font-size: 18px; line-height: 1.9; }
+.article-body h2 { font-size: 24px; font-weight: 700; color: var(--ink); margin: 40px 0 16px; line-height: 1.3; }
+html[lang="ar"] .article-body h2 { line-height: 1.5; }
+.article-body strong { color: var(--ink); font-weight: 700; }
+.article-body em { color: var(--muted); }
+
+.article-footer { padding: 40px 0 64px; border-top: 1px solid var(--rule); margin-top: 32px; }
+.article-footer .label { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent); font-weight: 700; margin-bottom: 16px; }
+html[lang="ar"] .article-footer .label { letter-spacing: 0; text-transform: none; font-size: 14px; }
+
+.engine-block { background: var(--card); border-inline-start: 3px solid var(--accent); padding: 24px 28px; margin: 40px 0; border-radius: 0 4px 4px 0; }
+html[lang="ar"] .engine-block { border-radius: 4px 0 0 4px; }
+.engine-block .label { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent); font-weight: 700; margin-bottom: 8px; }
+html[lang="ar"] .engine-block .label { letter-spacing: 0; text-transform: none; font-size: 14px; }
+.engine-block p { font-size: 15px; color: var(--muted); line-height: 1.6; margin: 0; }
+
+.about-hero { padding: 80px 0 32px; }
+.about-hero h1 { font-size: clamp(32px, 4.5vw, 52px); font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 20px; }
+html[lang="ar"] .about-hero h1 { letter-spacing: 0; line-height: 1.3; }
+.about-hero h1 .accent { color: var(--accent); }
+.layers { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; padding: 32px 0 64px; }
+.layer { background: var(--card); border: 1px solid var(--rule); padding: 22px; border-radius: 6px; }
+.layer .num { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent); font-weight: 700; margin-bottom: 8px; }
+html[lang="ar"] .layer .num { letter-spacing: 0; text-transform: none; font-size: 13px; }
+.layer h3 { font-size: 17px; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
+.layer p { font-size: 14px; color: var(--muted); line-height: 1.55; }
+
+footer { border-top: 1px solid var(--rule); padding: 40px 0 56px; margin-top: 64px; }
+.footer-inner { display: flex; flex-wrap: wrap; gap: 40px; align-items: flex-start; justify-content: space-between; }
+.footer-brand { font-weight: 800; font-size: 16px; color: var(--ink); margin-bottom: 8px; }
+.footer-brand span { color: var(--accent); }
+.footer-meta { font-size: 13px; color: var(--faint); }
+.footer-links { display: flex; gap: 24px; flex-wrap: wrap; }
+.footer-links a { color: var(--muted); font-size: 13px; }
+
+@media (max-width: 640px) {
+  .nav a:not(.lang) { display: none; }
+  .article-card { padding: 22px 0; }
+  .article-title { font-size: 22px; }
+  .hero { padding: 48px 0 32px; }
+  .article-body { padding: 32px 0 40px; }
+}
+</style>
+  
+</head>
+<body>
+  <header>
+    <div class="wrap header-inner">
+      <a href="/" class="logo">AI NEWS<span>.</span> KSA</a>
+      <nav class="nav">
+        <a href="/">Home</a>
+        <a href="/about.html">The Engine</a>
+        <a href="https://conneqtme.com" target="_blank" rel="noopener">Conneqtme.com</a>
+        <a href="/ar/" class="lang">العربية</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <section class="about-hero">
+      <div class="wrap-narrow">
+        <h1>This site runs on an engine <span class="accent">built by Conneqt.</span></h1>
+        <p style="font-size: 19px; color: var(--muted); line-height: 1.6; margin-bottom: 24px;">AI News KSA is a live deployment of the AI content engine that Conneqt ships for sportsbook, crypto, and digital-first operators across MENA. Every article on this site is generated, fact-checked, and published autonomously through the eight-layer pipeline below.</p>
+        <p style="font-size: 16px; color: var(--muted); line-height: 1.6;">Editorial focus: AI for marketing and growth. Refresh cadence: continuous, with new articles published as new sources flow through the ingestion layer.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap-narrow">
+        <h2 style="font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; font-weight: 700;">The pipeline</h2>
+        <div class="layers">
+          
+            <div class="layer">
+              <div class="num">01 — DATA INGESTION</div>
+              <h3>Data ingestion</h3>
+              <p>RSS feeds from TechCrunch AI, The Verge AI, Anthropic, OpenAI, Google AI blog, ArXiv. Polled every 6 hours for new sources.</p>
+            </div>
+
+            <div class="layer">
+              <div class="num">02 — BRIEF GENERATION</div>
+              <h3>Brief generation</h3>
+              <p>Each tracked story is assembled into a structured content brief — angle, supporting facts, target audience, target length, voice constraints.</p>
+            </div>
+
+            <div class="layer">
+              <div class="num">03 — VOICE & GUARDRAILS</div>
+              <h3>Voice & guardrails</h3>
+              <p>Versioned system prompts encode the editorial voice (analytical, industry-focused, no marketing fluff) and topic boundaries.</p>
+            </div>
+
+            <div class="layer">
+              <div class="num">04 — GENERATION</div>
+              <h3>Generation</h3>
+              <p>Anthropic Claude Sonnet 4.6 generates the article body from the brief. Long-form, on-tone, with internal structure.</p>
+            </div>
+
+            <div class="layer">
+              <div class="num">05 — FACT-CHECK (RAG)</div>
+              <h3>Fact-check (RAG)</h3>
+              <p>Retrieval-augmented verification against source material catches hallucinated stats, names, dates, or company references before publish.</p>
+            </div>
+
+            <div class="layer">
+              <div class="num">06 — SEO FORMATTING</div>
+              <h3>SEO formatting</h3>
+              <p>schema.org Article markup, internal linking to related pieces, hreflang tags, sitemap regeneration. Programmatic SEO at scale.</p>
+            </div>
+
+            <div class="layer">
+              <div class="num">07 — PUBLISH</div>
+              <h3>Publish</h3>
+              <p>Static HTML pushed via git commit. New articles live in under 60 seconds. CDN-distributed globally.</p>
+            </div>
+
+            <div class="layer">
+              <div class="num">08 — ANALYTICS FEEDBACK</div>
+              <h3>Analytics feedback</h3>
+              <p>Engagement signals (read time, scroll depth, return visits) feed back to the brief generator to evolve topic selection.</p>
+            </div>
+        </div>
+      </div>
+    </section>
+
+    <section style="padding: 0 0 80px;">
+      <div class="wrap-narrow">
+        <div class="engine-block">
+          <div class="label">Why we run our own engine on our own content</div>
+          <p>Most AI content vendors sell the product without using it. Conneqt News exists because we believed the strongest demonstration of the engine is to run it autonomously on our own publication and let the work speak. Every article you read here is produced by the same architecture we deploy for client pilots — same cost economics, same fact-check layer, same publishing latency.</p>
+        </div>
+
+        <h2 style="font-size: 24px; font-weight: 700; margin: 48px 0 16px;">For operators evaluating the engine</h2>
+        <p style="font-size: 17px; line-height: 1.75; color: var(--ink); margin-bottom: 22px;">If you're running a sportsbook, crypto project, or digital-first operator and the content velocity ceiling is becoming visible — Conneqt deploys vertical-tuned content engines on a 6-week pilot timeline against fixed fees. The engine in your stack will look architecturally identical to the one running this publication, configured for your data feeds, your voice, your markets.</p>
+        <p style="font-size: 17px; line-height: 1.75; color: var(--ink); margin-bottom: 22px;"><a href="https://conneqtme.com" style="color: var(--accent); font-weight: 700;">Get in touch →</a></p>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      <div class="footer-inner">
+        <div>
+          <div class="footer-brand">AI NEWS<span>.</span> KSA</div>
+          <div class="footer-meta">AI news for the MENA market. Powered by Conneqt — AI & Automation.</div>
+        </div>
+        <div class="footer-links">
+          <a href="/about.html">How this works</a>
+          <a href="/sitemap.xml">Sitemap</a>
+          <a href="https://conneqtme.com" target="_blank" rel="noopener">Conneqt</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
