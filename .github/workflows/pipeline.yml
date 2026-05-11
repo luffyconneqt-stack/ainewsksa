@@ -1,0 +1,43 @@
+# AI News KSA — autonomous content pipeline
+# Runs every 6 hours. Fetches AI news → Claude generates EN + AR → fact-checks → commits → Cloudflare auto-rebuilds
+
+name: Content Pipeline
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"
+  workflow_dispatch:
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run content pipeline
+        run: node scripts/pipeline.js
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "AI News KSA Pipeline"
+          git config user.email "pipeline@ainewsksa.com"
+          git add articles/ public/
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "pipeline: new articles ($(date -u +%Y-%m-%dT%H:%M:%SZ))"
+            git push
+          fi
