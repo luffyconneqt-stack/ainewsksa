@@ -16,7 +16,7 @@
   <meta property="og:locale" content="ar_SA">
   <meta property="og:site_name" content="AI News KSA">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:site" content="@conneqt">
+  <meta name="twitter:site" content="@conneqtmeAI">
   <meta name="twitter:title" content="كيف تعيد قنوات الإعلان بالذكاء الاصطناعي تشكيل نموذج الوكالات">
   <meta name="twitter:description" content="حين يستغرق إنتاج 50 متغيّراً إعلانياً دقائق بدلاً من أسابيع، يتغيّر عرض قيمة الوكالة. بعض الوكالات تتكيّف؛ أخرى تفقد البند بأكمله.">
   <meta name="theme-color" content="#0A0A0A">
@@ -61,9 +61,19 @@ html[lang="ar"] .hero h1 { letter-spacing: 0; line-height: 1.25; }
 html[lang="ar"] .hero .meta { letter-spacing: 0; text-transform: none; font-size: 14px; }
 .hero .meta .live::before { content: ""; display: inline-block; width: 8px; height: 8px; background: var(--accent); border-radius: 50%; margin-inline-end: 8px; vertical-align: middle; box-shadow: 0 0 8px var(--accent); }
 
-.list { padding: 56px 0; }
-.list h2 { font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 32px; font-weight: 700; }
+.list { padding: 40px 0 56px; }
+.list h2 { font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; font-weight: 700; }
 html[lang="ar"] .list h2 { letter-spacing: 0; text-transform: none; font-size: 16px; }
+
+/* Tag filter bar */
+.tag-bar { display: flex; flex-wrap: wrap; gap: 8px; padding: 0 0 32px; border-bottom: 1px solid var(--rule); margin-bottom: 32px; }
+.tag-chip { background: var(--card); border: 1px solid var(--rule); color: var(--ink); padding: 7px 14px; border-radius: 22px; font-size: 13px; font-weight: 500; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.15s ease; font-family: inherit; line-height: 1; }
+.tag-chip:hover { border-color: var(--accent); color: var(--accent); }
+.tag-chip.active { background: var(--accent); color: #000; border-color: var(--accent); font-weight: 600; }
+.tag-chip .tag-icon { font-size: 14px; line-height: 1; }
+html[lang="ar"] .tag-chip { font-size: 14px; }
+.no-results { color: var(--muted); font-size: 16px; padding: 40px 0; text-align: center; display: none; }
+.no-results.show { display: block; }
 .article-card { display: block; padding: 28px 0; border-bottom: 1px solid var(--rule); transition: padding 0.2s; }
 .article-card:hover { text-decoration: none; }
 .article-card:hover .article-title { color: var(--accent); }
@@ -195,6 +205,12 @@ footer { border-top: 1px solid var(--rule); padding: 40px 0 56px; margin-top: 64
         <div class="wrap-narrow">
           <div class="label">ذات صلة</div>
           
+            <a class="article-card" href="/ar/articles/chatgpt-enters-the-ad-market-what-the-new-ai-native-ad-channel-means-for-mena-ma.html">
+              <div class="tags"><span>إعلانات الذكاء الاصطناعي</span> <span>إعلانات تشات جي بي تي</span> <span>الوسائط المدفوعة</span> <span>تسويق النمو</span> <span>منظومة الإعلانات</span></div>
+              <div class="article-title">تشات جي بي تي يقتحم سوق الإعلانات: ما الذي يعنيه ظهور قناة إعلانية مدعومة بالذكاء الاصطناعي لمسوّقي منطقة الشرق الأوسط وشمال أفريقيا؟</div>
+              <div class="dek">أعلنت OpenAI عن اختبار إعلانات داخل ChatGPT، وهو تحوّل هيكلي في نموذج تحقيق الإيرادات يستحق من فرق التسويق والنمو في الخليج دراسةً متأنية قبل أن تنضج القناة.</div>
+            </a>
+
             <a class="article-card" href="/ar/articles/programmatic-seo-ai-next-category.html">
               <div class="tags"><span>SEO</span> <span>محتوى برمجي</span> <span>تحليل قطاعي</span></div>
               <div class="article-title">لماذا أصبح SEO البرمجي الفئة التالية في الذكاء الاصطناعي بقيمة 10 مليارات دولار</div>
@@ -205,12 +221,6 @@ footer { border-top: 1px solid var(--rule); padding: 40px 0 56px; margin-top: 64
               <div class="tags"><span>رهان رياضي</span> <span>محتوى الذكاء الاصطناعي</span> <span>iGaming</span></div>
               <div class="article-title">داخل محركات المحتوى بالذكاء الاصطناعي التي تُشغِّل صناعة الرهان الرياضي الحديثة</div>
               <div class="dek">مُشغّلو الصف الأول يرفعون إنتاج المحتوى من 50 مباراة أسبوعياً إلى 800. البنية أصبحت قياسية — والسؤال الآن هو أي طبقة قطاعية ستفوز.</div>
-            </a>
-
-            <a class="article-card" href="/ar/articles/telegram-native-marketing-restricted-verticals.html">
-              <div class="tags"><span>تليغرام</span> <span>نمو</span> <span>قطاعات مقيّدة</span></div>
-              <div class="article-title">مخطط التسويق عبر تليغرام الذي ينسخه كل قطاع مقيّد</div>
-              <div class="dek">حين لا تشغّل Meta و Google إعلاناتك، تتوقف عن استئجار الانتباه وتبني قنوات تملكها. 1xBet كانت السبّاقة. مشاريع الكريبتو، المكمّلات الغذائية، وقطاعات المواعدة الآن تشغّل أشكالاً مختلفة من البنية ذاتها.</div>
             </a>
         </div>
       </section>
