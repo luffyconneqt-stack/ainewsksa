@@ -138,11 +138,20 @@ footer { border-top: 1px solid var(--rule); padding: 40px 0 56px; margin-top: 64
 .footer-links a { color: var(--muted); font-size: 13px; }
 
 @media (max-width: 640px) {
-  .nav a:not(.lang) { display: none; }
+  header { padding: 14px 0; }
+  .logo { font-size: 15px; letter-spacing: 0.3px; }
+  .nav a { margin-inline-start: 14px; font-size: 12px; letter-spacing: 0.3px; }
+  .nav a.lang { padding: 5px 10px; font-size: 11px; }
+  html[lang="ar"] .nav a { font-size: 13px; }
   .article-card { padding: 22px 0; }
   .article-title { font-size: 22px; }
   .hero { padding: 48px 0 32px; }
   .article-body { padding: 32px 0 40px; }
+  .tag-bar { gap: 6px; }
+  .tag-chip { padding: 6px 10px; font-size: 12px; }
+}
+@media (max-width: 420px) {
+  .nav a { margin-inline-start: 10px; font-size: 11px; }
 }
 `;
 
