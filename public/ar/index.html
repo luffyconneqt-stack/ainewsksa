@@ -133,11 +133,20 @@ footer { border-top: 1px solid var(--rule); padding: 40px 0 56px; margin-top: 64
 .footer-links a { color: var(--muted); font-size: 13px; }
 
 @media (max-width: 640px) {
-  .nav a:not(.lang) { display: none; }
+  header { padding: 14px 0; }
+  .logo { font-size: 15px; letter-spacing: 0.3px; }
+  .nav a { margin-inline-start: 14px; font-size: 12px; letter-spacing: 0.3px; }
+  .nav a.lang { padding: 5px 10px; font-size: 11px; }
+  html[lang="ar"] .nav a { font-size: 13px; }
   .article-card { padding: 22px 0; }
   .article-title { font-size: 22px; }
   .hero { padding: 48px 0 32px; }
   .article-body { padding: 32px 0 40px; }
+  .tag-bar { gap: 6px; }
+  .tag-chip { padding: 6px 10px; font-size: 12px; }
+}
+@media (max-width: 420px) {
+  .nav a { margin-inline-start: 10px; font-size: 11px; }
 }
 </style>
   
@@ -169,7 +178,12 @@ footer { border-top: 1px solid var(--rule); padding: 40px 0 56px; margin-top: 64
         <div class="tag-bar">
           
     <button class="tag-chip active" data-tag="all"><span class="tag-icon">🗂</span> الكل</button>
-    <button class="tag-chip" data-tag="إعلانات الذكاء الاصطناعي"><span class="tag-icon">📄</span> إعلانات الذكاء الاصطناعي</button>
+    <button class="tag-chip" data-tag="وكلاء الذكاء الاصطناعي"><span class="tag-icon">📄</span> وكلاء الذكاء الاصطناعي</button>
+<button class="tag-chip" data-tag="عمليات الوكالات"><span class="tag-icon">📄</span> عمليات الوكالات</button>
+<button class="tag-chip" data-tag="أتمتة التسويق"><span class="tag-icon">📄</span> أتمتة التسويق</button>
+<button class="tag-chip" data-tag="إعلانات الذكاء الاصطناعي"><span class="tag-icon">📄</span> إعلانات الذكاء الاصطناعي</button>
+<button class="tag-chip" data-tag="الإبداع الآلي"><span class="tag-icon">📄</span> الإبداع الآلي</button>
+<button class="tag-chip" data-tag="تحول الوكالات"><span class="tag-icon">📄</span> تحول الوكالات</button>
 <button class="tag-chip" data-tag="إعلانات تشات جي بي تي"><span class="tag-icon">📄</span> إعلانات تشات جي بي تي</button>
 <button class="tag-chip" data-tag="الوسائط المدفوعة"><span class="tag-icon">📄</span> الوسائط المدفوعة</button>
 <button class="tag-chip" data-tag="تسويق النمو"><span class="tag-icon">📄</span> تسويق النمو</button>
@@ -206,6 +220,20 @@ footer { border-top: 1px solid var(--rule); padding: 40px 0 56px; margin-top: 64
         </div>
         <h2>أحدث التحليلات</h2>
         
+    <a class="article-card" data-tags="وكلاء الذكاء الاصطناعي|عمليات الوكالات|أتمتة التسويق" href="/ar/articles/ai-agents-in-marketing-agencies-what-actually-works-and-what-doesn-t.html">
+      <div class="tags"><span>وكلاء الذكاء الاصطناعي</span> <span>عمليات الوكالات</span> <span>أتمتة التسويق</span></div>
+      <div class="article-title">وكلاء الذكاء الاصطناعي في وكالات التسويق: ما الذي يعمل فعلاً وما الذي لا يعمل؟</div>
+      <div class="dek">تحليل ميداني لأطر الأتمتة التي تُحقق قيمة حقيقية داخل وكالات التسويق، وتلك التي لا تزال وعوداً غير مكتملة، مع أثر مباشر على وكالات الخليج والسعودية المطالَبة بإثبات عائد الاستثمار.</div>
+      <div class="footer-meta">١١ مايو ٢٠٢٦ · قراءة 5 دقائق</div>
+    </a>
+
+    <a class="article-card" data-tags="إعلانات الذكاء الاصطناعي|الإبداع الآلي|تحول الوكالات" href="/ar/articles/google-uses-ai-to-reinvent-the-ad-brief-what-it-means-for-marketing-agencies.html">
+      <div class="tags"><span>إعلانات الذكاء الاصطناعي</span> <span>الإبداع الآلي</span> <span>تحول الوكالات</span></div>
+      <div class="article-title">غوغل تُعيد اختراع الإحاطة الإعلانية بالذكاء الاصطناعي — ماذا يعني ذلك لوكالات التسويق؟</div>
+      <div class="dek">مبادرة "The Small Brief" من غوغل تكشف كيف يتحول الذكاء الاصطناعي من طبقة إنتاجية إلى شريك إبداعي فعلي، وما يترتب على ذلك لوكالات الإعلان في منطقة الشرق الأوسط وشمال أفريقيا.</div>
+      <div class="footer-meta">١١ مايو ٢٠٢٦ · قراءة 5 دقائق</div>
+    </a>
+
     <a class="article-card" data-tags="إعلانات الذكاء الاصطناعي|إعلانات تشات جي بي تي|الوسائط المدفوعة|تسويق النمو|منظومة الإعلانات" href="/ar/articles/chatgpt-enters-the-ad-market-what-the-new-ai-native-ad-channel-means-for-mena-ma.html">
       <div class="tags"><span>إعلانات الذكاء الاصطناعي</span> <span>إعلانات تشات جي بي تي</span> <span>الوسائط المدفوعة</span> <span>تسويق النمو</span> <span>منظومة الإعلانات</span></div>
       <div class="article-title">تشات جي بي تي يقتحم سوق الإعلانات: ما الذي يعنيه ظهور قناة إعلانية مدعومة بالذكاء الاصطناعي لمسوّقي منطقة الشرق الأوسط وشمال أفريقيا؟</div>

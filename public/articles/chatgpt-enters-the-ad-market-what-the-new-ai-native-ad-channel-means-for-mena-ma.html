@@ -133,11 +133,20 @@ footer { border-top: 1px solid var(--rule); padding: 40px 0 56px; margin-top: 64
 .footer-links a { color: var(--muted); font-size: 13px; }
 
 @media (max-width: 640px) {
-  .nav a:not(.lang) { display: none; }
+  header { padding: 14px 0; }
+  .logo { font-size: 15px; letter-spacing: 0.3px; }
+  .nav a { margin-inline-start: 14px; font-size: 12px; letter-spacing: 0.3px; }
+  .nav a.lang { padding: 5px 10px; font-size: 11px; }
+  html[lang="ar"] .nav a { font-size: 13px; }
   .article-card { padding: 22px 0; }
   .article-title { font-size: 22px; }
   .hero { padding: 48px 0 32px; }
   .article-body { padding: 32px 0 40px; }
+  .tag-bar { gap: 6px; }
+  .tag-chip { padding: 6px 10px; font-size: 12px; }
+}
+@media (max-width: 420px) {
+  .nav a { margin-inline-start: 10px; font-size: 11px; }
 }
 </style>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"ChatGPT Enters the Ad Market: What the New AI-Native Ad Channel Means for MENA Marketers","description":"OpenAI's move into advertising inside ChatGPT is not an incremental update — it redefines how paid media works when the interface is a reasoning engine, not a results page.","datePublished":"2026-05-11","dateModified":"2026-05-11","inLanguage":"en","author":{"@type":"Organization","name":"Conneqt"},"publisher":{"@type":"Organization","name":"Conneqt","logo":{"@type":"ImageObject","url":"https://ainewsksa.com/logo.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://ainewsksa.com/articles/chatgpt-enters-the-ad-market-what-the-new-ai-native-ad-channel-means-for-mena-ma.html"},"keywords":"AI advertising, ChatGPT ads, paid media, growth marketing, ad pipeline"}</script>
@@ -177,22 +186,22 @@ footer { border-top: 1px solid var(--rule); padding: 40px 0 56px; margin-top: 64
         <div class="wrap-narrow">
           <div class="label">Related</div>
           
+            <a class="article-card" href="/articles/ai-agents-in-marketing-agencies-what-actually-works-and-what-doesn-t.html">
+              <div class="tags"><span>AI agents</span> <span>Agency operations</span> <span>Marketing automation</span></div>
+              <div class="article-title">AI Agents in Marketing Agencies: What Actually Works and What Doesn't</div>
+              <div class="dek">As GCC and KSA agencies rush to prove AI ROI to clients, a grounded look at which marketing automation frameworks deliver measurable value — and which remain dangerously overhyped.</div>
+            </a>
+
+            <a class="article-card" href="/articles/google-uses-ai-to-reinvent-the-ad-brief-what-it-means-for-marketing-agencies.html">
+              <div class="tags"><span>AI advertising</span> <span>Creative AI</span> <span>Agency transformation</span></div>
+              <div class="article-title">Google Uses AI to Reinvent the Ad Brief — What It Means for Marketing Agencies</div>
+              <div class="dek">Google's 'The Small Brief' pairs advertising veterans with AI tools to build campaigns for local businesses, offering a concrete window into how AI is restructuring creative strategy — and what that restructuring demands from MENA agencies.</div>
+            </a>
+
             <a class="article-card" href="/articles/programmatic-seo-ai-next-category.html">
               <div class="tags"><span>SEO</span> <span>Programmatic content</span> <span>Industry analysis</span></div>
               <div class="article-title">Why programmatic SEO is becoming AI's next $10B category</div>
               <div class="dek">From sportsbooks to real estate to crypto, the operators winning long-tail organic traffic are running AI-generated content at scales human teams can't match. The economics flipped in 2024.</div>
-            </a>
-
-            <a class="article-card" href="/articles/ai-content-engines-modern-sportsbooks.html">
-              <div class="tags"><span>Sportsbook</span> <span>AI content</span> <span>iGaming</span></div>
-              <div class="article-title">Inside the AI content engines running modern sportsbooks</div>
-              <div class="dek">Tier-1 operators are scaling content production from 50 fixtures a week to 800. The architecture is now standardized — the question is which vertical layer wins.</div>
-            </a>
-
-            <a class="article-card" href="/articles/telegram-native-marketing-restricted-verticals.html">
-              <div class="tags"><span>Telegram</span> <span>Growth</span> <span>Restricted verticals</span></div>
-              <div class="article-title">The Telegram-native marketing playbook every restricted vertical is copying</div>
-              <div class="dek">When Meta and Google won't run your ads, you stop renting attention and build owned funnels. 1xBet pioneered it. Crypto projects, supplements, and dating verticals are now running variants of the same architecture.</div>
             </a>
         </div>
       </section>

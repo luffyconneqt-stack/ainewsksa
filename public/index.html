@@ -133,11 +133,20 @@ footer { border-top: 1px solid var(--rule); padding: 40px 0 56px; margin-top: 64
 .footer-links a { color: var(--muted); font-size: 13px; }
 
 @media (max-width: 640px) {
-  .nav a:not(.lang) { display: none; }
+  header { padding: 14px 0; }
+  .logo { font-size: 15px; letter-spacing: 0.3px; }
+  .nav a { margin-inline-start: 14px; font-size: 12px; letter-spacing: 0.3px; }
+  .nav a.lang { padding: 5px 10px; font-size: 11px; }
+  html[lang="ar"] .nav a { font-size: 13px; }
   .article-card { padding: 22px 0; }
   .article-title { font-size: 22px; }
   .hero { padding: 48px 0 32px; }
   .article-body { padding: 32px 0 40px; }
+  .tag-bar { gap: 6px; }
+  .tag-chip { padding: 6px 10px; font-size: 12px; }
+}
+@media (max-width: 420px) {
+  .nav a { margin-inline-start: 10px; font-size: 11px; }
 }
 </style>
   
@@ -169,7 +178,12 @@ footer { border-top: 1px solid var(--rule); padding: 40px 0 56px; margin-top: 64
         <div class="tag-bar">
           
     <button class="tag-chip active" data-tag="all"><span class="tag-icon">🗂</span> All</button>
-    <button class="tag-chip" data-tag="AI advertising"><span class="tag-icon">📄</span> AI advertising</button>
+    <button class="tag-chip" data-tag="AI agents"><span class="tag-icon">📄</span> AI agents</button>
+<button class="tag-chip" data-tag="Agency operations"><span class="tag-icon">📄</span> Agency operations</button>
+<button class="tag-chip" data-tag="Marketing automation"><span class="tag-icon">📄</span> Marketing automation</button>
+<button class="tag-chip" data-tag="AI advertising"><span class="tag-icon">📄</span> AI advertising</button>
+<button class="tag-chip" data-tag="Creative AI"><span class="tag-icon">📄</span> Creative AI</button>
+<button class="tag-chip" data-tag="Agency transformation"><span class="tag-icon">📄</span> Agency transformation</button>
 <button class="tag-chip" data-tag="ChatGPT ads"><span class="tag-icon">📄</span> ChatGPT ads</button>
 <button class="tag-chip" data-tag="paid media"><span class="tag-icon">📄</span> paid media</button>
 <button class="tag-chip" data-tag="growth marketing"><span class="tag-icon">📄</span> growth marketing</button>
@@ -205,6 +219,20 @@ footer { border-top: 1px solid var(--rule); padding: 40px 0 56px; margin-top: 64
         </div>
         <h2>Latest analysis</h2>
         
+    <a class="article-card" data-tags="AI agents|Agency operations|Marketing automation" href="/articles/ai-agents-in-marketing-agencies-what-actually-works-and-what-doesn-t.html">
+      <div class="tags"><span>AI agents</span> <span>Agency operations</span> <span>Marketing automation</span></div>
+      <div class="article-title">AI Agents in Marketing Agencies: What Actually Works and What Doesn't</div>
+      <div class="dek">As GCC and KSA agencies rush to prove AI ROI to clients, a grounded look at which marketing automation frameworks deliver measurable value — and which remain dangerously overhyped.</div>
+      <div class="footer-meta">May 11, 2026 · 6 min read</div>
+    </a>
+
+    <a class="article-card" data-tags="AI advertising|Creative AI|Agency transformation" href="/articles/google-uses-ai-to-reinvent-the-ad-brief-what-it-means-for-marketing-agencies.html">
+      <div class="tags"><span>AI advertising</span> <span>Creative AI</span> <span>Agency transformation</span></div>
+      <div class="article-title">Google Uses AI to Reinvent the Ad Brief — What It Means for Marketing Agencies</div>
+      <div class="dek">Google's 'The Small Brief' pairs advertising veterans with AI tools to build campaigns for local businesses, offering a concrete window into how AI is restructuring creative strategy — and what that restructuring demands from MENA agencies.</div>
+      <div class="footer-meta">May 11, 2026 · 5 min read</div>
+    </a>
+
     <a class="article-card" data-tags="AI advertising|ChatGPT ads|paid media|growth marketing|ad pipeline" href="/articles/chatgpt-enters-the-ad-market-what-the-new-ai-native-ad-channel-means-for-mena-ma.html">
       <div class="tags"><span>AI advertising</span> <span>ChatGPT ads</span> <span>paid media</span> <span>growth marketing</span> <span>ad pipeline</span></div>
       <div class="article-title">ChatGPT Enters the Ad Market: What the New AI-Native Ad Channel Means for MENA Marketers</div>
