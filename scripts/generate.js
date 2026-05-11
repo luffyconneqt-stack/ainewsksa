@@ -16,7 +16,7 @@ const SITE = {
   taglineAR: "الذكاء الاصطناعي للتسويق والنمو في الشرق الأوسط — مُولَّد بواسطة محرك مستقل",
   description: "Industry analysis on AI content engines, programmatic SEO, blockchain ad networks, and lifecycle marketing — produced and published autonomously for the MENA market.",
   descriptionAR: "تحليل قطاعي عن محركات المحتوى بالذكاء الاصطناعي، SEO البرمجي، شبكات إعلانات البلوكشين، وتسويق دورة الحياة — يُنتَج ويُنشَر تلقائياً لسوق الشرق الأوسط وشمال أفريقيا.",
-  twitter: "@conneqt",
+  twitter: "@conneqtmeAI",
 };
 
 const PUBLIC = path.resolve(__dirname, "../public");
@@ -66,9 +66,19 @@ html[lang="ar"] .hero h1 { letter-spacing: 0; line-height: 1.25; }
 html[lang="ar"] .hero .meta { letter-spacing: 0; text-transform: none; font-size: 14px; }
 .hero .meta .live::before { content: ""; display: inline-block; width: 8px; height: 8px; background: var(--accent); border-radius: 50%; margin-inline-end: 8px; vertical-align: middle; box-shadow: 0 0 8px var(--accent); }
 
-.list { padding: 56px 0; }
-.list h2 { font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 32px; font-weight: 700; }
+.list { padding: 40px 0 56px; }
+.list h2 { font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; font-weight: 700; }
 html[lang="ar"] .list h2 { letter-spacing: 0; text-transform: none; font-size: 16px; }
+
+/* Tag filter bar */
+.tag-bar { display: flex; flex-wrap: wrap; gap: 8px; padding: 0 0 32px; border-bottom: 1px solid var(--rule); margin-bottom: 32px; }
+.tag-chip { background: var(--card); border: 1px solid var(--rule); color: var(--ink); padding: 7px 14px; border-radius: 22px; font-size: 13px; font-weight: 500; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.15s ease; font-family: inherit; line-height: 1; }
+.tag-chip:hover { border-color: var(--accent); color: var(--accent); }
+.tag-chip.active { background: var(--accent); color: #000; border-color: var(--accent); font-weight: 600; }
+.tag-chip .tag-icon { font-size: 14px; line-height: 1; }
+html[lang="ar"] .tag-chip { font-size: 14px; }
+.no-results { color: var(--muted); font-size: 16px; padding: 40px 0; text-align: center; display: none; }
+.no-results.show { display: block; }
 .article-card { display: block; padding: 28px 0; border-bottom: 1px solid var(--rule); transition: padding 0.2s; }
 .article-card:hover { text-decoration: none; }
 .article-card:hover .article-title { color: var(--accent); }
@@ -294,6 +304,33 @@ function footer(lang) {
 </html>`;
 }
 
+// Tag → emoji icon mapping (works across both languages)
+const TAG_ICONS = {
+  // English tags
+  "SEO": "🔍", "Programmatic content": "⚡", "Industry analysis": "📊",
+  "Sportsbook": "🎯", "AI content": "🤖", "iGaming": "🎲",
+  "Telegram": "💬", "Growth": "📈", "Restricted verticals": "🚧",
+  "Crypto marketing": "₿", "Ad networks": "📣", "Web3": "🔗",
+  "Localization": "🌍", "Multi-market": "🌐", "Content strategy": "📝",
+  "RAG": "🔬", "Production AI": "⚙️", "Quality": "✓",
+  "Ad creative": "🎨", "Agencies": "🏢", "Industry": "🏛",
+  "Lifecycle": "👤", "CRM": "📇", "Personalization": "🎯",
+  "Long-tail": "📏", "Marketing leadership": "👔", "Strategy": "♟",
+  "AI": "🤖",
+  // Arabic tags
+  "محتوى برمجي": "⚡", "تحليل قطاعي": "📊",
+  "رهان رياضي": "🎯", "ذكاء اصطناعي": "🤖",
+  "تليغرام": "💬", "نمو": "📈", "قطاعات مقيّدة": "🚧",
+  "تسويق الكريبتو": "₿", "شبكات إعلانية": "📣",
+  "التوطين": "🌍", "متعدد الأسواق": "🌐", "استراتيجية محتوى": "📝",
+  "الذكاء الاصطناعي الإنتاجي": "⚙️", "الجودة": "✓",
+  "إبداع إعلاني": "🎨", "وكالات": "🏢", "صناعة": "🏛",
+  "دورة الحياة": "👤", "التخصيص": "🎯",
+  "ذيل طويل": "📏", "إنتاج الذكاء الاصطناعي": "⚙️",
+  "قيادة التسويق": "👔", "استراتيجية": "♟",
+};
+function tagIcon(tag) { return TAG_ICONS[tag] || "📄"; }
+
 function fmtDate(iso, lang) {
   const d = new Date(iso);
   if (lang === "ar") {
@@ -308,13 +345,53 @@ function indexHTML(lang) {
   const c = COPY[lang];
   const sorted = [...articles].sort((a, b) => b.date.localeCompare(a.date));
   const articlePath = lang === "ar" ? "/ar/articles/" : "/articles/";
+
+  // Extract unique tags across all articles
+  const allTags = [...new Set(sorted.flatMap(a => a.tags))];
+
+  const allLabel = lang === "ar" ? "الكل" : "All";
+  const noResultsLabel = lang === "ar" ? "لا توجد مقالات بهذا الوسم." : "No articles match this filter.";
+
+  const tagChips = `
+    <button class="tag-chip active" data-tag="all"><span class="tag-icon">🗂</span> ${allLabel}</button>
+    ${allTags.map(t => `<button class="tag-chip" data-tag="${t.replace(/"/g, "&quot;")}"><span class="tag-icon">${tagIcon(t)}</span> ${t}</button>`).join("\n")}
+  `;
+
   const cards = sorted.map(a => `
-    <a class="article-card" href="${articlePath}${a.slug}.html">
+    <a class="article-card" data-tags="${a.tags.map(t => t.replace(/"/g, "&quot;")).join("|")}" href="${articlePath}${a.slug}.html">
       <div class="tags">${a.tags.map(t => `<span>${t}</span>`).join(" ")}</div>
       <div class="article-title">${a.title}</div>
       <div class="dek">${a.dek}</div>
       <div class="footer-meta">${fmtDate(a.date, lang)} · ${a.readTime}</div>
     </a>`).join("\n");
+
+  const filterScript = `
+    <script>
+      (function () {
+        const chips = document.querySelectorAll('.tag-chip');
+        const cards = document.querySelectorAll('.article-card');
+        const noResults = document.getElementById('no-results');
+        chips.forEach(chip => {
+          chip.addEventListener('click', () => {
+            const tag = chip.getAttribute('data-tag');
+            chips.forEach(c => c.classList.remove('active'));
+            chip.classList.add('active');
+            let visibleCount = 0;
+            cards.forEach(card => {
+              const cardTags = (card.getAttribute('data-tags') || '').split('|');
+              if (tag === 'all' || cardTags.indexOf(tag) !== -1) {
+                card.style.display = '';
+                visibleCount++;
+              } else {
+                card.style.display = 'none';
+              }
+            });
+            if (noResults) noResults.classList.toggle('show', visibleCount === 0);
+          });
+        });
+      })();
+    </script>
+  `;
 
   return head(
     lang,
@@ -336,10 +413,15 @@ function indexHTML(lang) {
     </section>
     <section class="list">
       <div class="wrap">
+        <div class="tag-bar">
+          ${tagChips}
+        </div>
         <h2>${c.latest}</h2>
         ${cards}
+        <div id="no-results" class="no-results">${noResultsLabel}</div>
       </div>
     </section>
+    ${filterScript}
   </main>` + footer(lang);
 }
 
