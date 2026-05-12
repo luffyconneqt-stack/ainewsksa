@@ -39,7 +39,8 @@ const FOCUS =
   "Industry analysis, not product announcements. Particular relevance " +
   "to MENA / GCC / KSA markets where possible.";
 
-const MAX_NEW_PER_RUN = 3;
+const MAX_NEW_PER_RUN = 2;
+const DEDUP_LOOKBACK_DAYS = 30;
 const ARTICLES_DIR = path.resolve(__dirname, "../articles");
 const ARTICLES_EN_FILE = path.join(ARTICLES_DIR, "articles.js");
 const ARTICLES_AR_FILE = path.join(ARTICLES_DIR, "articles-ar.js");
@@ -131,7 +132,21 @@ async function ingestFeeds() {
   return items;
 }
 
-// ============ 02 — BRIEF GENERATION (tool use) ============
+// ============ 02 — BRIEF GENERATION (tool use, with topic dedup) ============
+function getRecentPublishedTitles() {
+  // Read existing EN articles (AR mirrors EN by slug), dedup against last N days
+  try {
+    delete require.cache[require.resolve(ARTICLES_EN_FILE)];
+    const existing = require(ARTICLES_EN_FILE);
+    const cutoff = new Date(Date.now() - DEDUP_LOOKBACK_DAYS * 24 * 60 * 60 * 1000);
+    return existing
+      .filter(a => new Date(a.date) >= cutoff)
+      .map(a => `- ${a.title}${a.dek ? " — " + a.dek.slice(0, 100) : ""}`);
+  } catch (e) {
+    return [];
+  }
+}
+
 async function selectAndBrief(items, alreadyTracked) {
   console.log("[02] Selecting & briefing stories...");
   const fresh = items.filter(i => !alreadyTracked.includes(i.link));
@@ -140,10 +155,16 @@ async function selectAndBrief(items, alreadyTracked) {
     return [];
   }
 
-  const prompt = `${FOCUS}
+  const recentTitles = getRecentPublishedTitles();
+  const dedupBlock = recentTitles.length > 0
+    ? `\n\nCRITICAL — DO NOT DUPLICATE:\nWe have already published these articles in the last ${DEDUP_LOOKBACK_DAYS} days. DO NOT select any candidate story that covers the same news event, same company announcement, same product launch, or same topic angle as any title below. If a candidate is about the same news event (even from a different source), SKIP IT.\n\n${recentTitles.join("\n")}\n\nReturn ONLY stories on genuinely new topics not represented above.`
+    : "";
 
-Below are ${fresh.length} recent items from AI news feeds. Pick the ${MAX_NEW_PER_RUN} most
-relevant for "AI News KSA" (AI for marketing & growth in MENA — industry analysis publication).
+  const prompt = `${FOCUS}${dedupBlock}
+
+Below are ${fresh.length} recent items from AI news feeds. Pick UP TO ${MAX_NEW_PER_RUN} most relevant stories for "AI News KSA" (AI for marketing & growth in MENA — industry analysis publication).
+
+If fewer than ${MAX_NEW_PER_RUN} fresh non-duplicate stories exist, return only those. It is fine to return 0, 1, or ${MAX_NEW_PER_RUN}. Better to return nothing than to publish a duplicate.
 
 Items:
 ${fresh.map((i, idx) => `[${idx}] ${i.source} — ${i.title}\n    ${i.summary}\n    ${i.link}`).join("\n\n")}`;
