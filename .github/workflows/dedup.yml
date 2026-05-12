@@ -1,0 +1,58 @@
+# AI News KSA — one-shot duplicate cleanup
+# Run manually from GitHub Actions tab when you spot duplicate articles.
+# Removes duplicate articles from both EN and AR sets, rebuilds site, commits.
+
+name: Dedup Articles
+
+on:
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: "Apply changes? (false = dry run, true = remove duplicates)"
+        required: true
+        default: "false"
+        type: choice
+        options:
+          - "false"
+          - "true"
+
+jobs:
+  dedup:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run dedup script
+        run: |
+          if [ "${{ inputs.apply }}" = "true" ]; then
+            node scripts/dedup.js --apply
+            node scripts/generate.js
+          else
+            node scripts/dedup.js
+          fi
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+
+      - name: Commit changes if apply=true
+        if: ${{ inputs.apply == 'true' }}
+        run: |
+          git config user.name "AI News KSA Dedup"
+          git config user.email "dedup@ainewsksa.com"
+          git add articles/ public/
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "dedup: remove duplicate articles"
+            git push
+          fi
