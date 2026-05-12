@@ -65,21 +65,45 @@ const VOICE_AR = `أنت تكتب لـ "أخبار الذكاء الاصطناع
 - 500-700 كلمة. متن HTML بعلامات <p> و <h2> فقط.
 - هذه كتابة أصلية وليست ترجمة من الإنجليزية. ابدأ من بيانات القصة المصدرية مباشرة.`;
 
-const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+const anthropic = new Anthropic({
+  apiKey: process.env.ANTHROPIC_API_KEY,
+  maxRetries: 5, // SDK-level retries (default is 2)
+});
 const MODEL = "claude-sonnet-4-6";
 
-// ============ Helper: call Claude with forced tool use ============
+// Retry on transient Anthropic errors (529 overload, 5xx, 429 rate limit)
+const RETRY_STATUSES = new Set([429, 500, 502, 503, 504, 529]);
+const MAX_RETRIES = 5;
+
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+// ============ Helper: call Claude with forced tool use + retry ============
 async function callTool(toolName, toolSchema, userPrompt, maxTokens = 3000) {
-  const res = await anthropic.messages.create({
-    model: MODEL,
-    max_tokens: maxTokens,
-    tools: [{ name: toolName, description: `Submit a ${toolName} payload`, input_schema: toolSchema }],
-    tool_choice: { type: "tool", name: toolName },
-    messages: [{ role: "user", content: userPrompt }],
-  });
-  const toolUse = res.content.find(c => c.type === "tool_use");
-  if (!toolUse) throw new Error(`Tool use response missing for ${toolName}`);
-  return toolUse.input;
+  let lastErr;
+  for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
+    try {
+      const res = await anthropic.messages.create({
+        model: MODEL,
+        max_tokens: maxTokens,
+        tools: [{ name: toolName, description: `Submit a ${toolName} payload`, input_schema: toolSchema }],
+        tool_choice: { type: "tool", name: toolName },
+        messages: [{ role: "user", content: userPrompt }],
+      });
+      const toolUse = res.content.find(c => c.type === "tool_use");
+      if (!toolUse) throw new Error(`Tool use response missing for ${toolName}`);
+      return toolUse.input;
+    } catch (e) {
+      lastErr = e;
+      const status = e?.status;
+      const errType = e?.error?.error?.type || e?.error?.type || "unknown";
+      if (!RETRY_STATUSES.has(status) || attempt === MAX_RETRIES) throw e;
+      // Exponential backoff with jitter: 3s, 6s, 12s, 24s, 48s, capped at 60s
+      const delay = Math.min(60000, 3000 * Math.pow(2, attempt) + Math.floor(Math.random() * 1500));
+      console.warn(`  ⚠ Anthropic API ${status} (${errType}) — retry ${attempt + 1}/${MAX_RETRIES} in ${Math.round(delay / 1000)}s`);
+      await sleep(delay);
+    }
+  }
+  throw lastErr;
 }
 
 // ============ 01 — INGEST ============
