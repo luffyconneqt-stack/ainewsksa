@@ -8,6 +8,17 @@ const path = require("path");
 const articlesEN = require("../articles/articles.js");
 const articlesAR = require("../articles/articles-ar.js");
 
+// Google Analytics 4 measurement ID — to change, just edit this string
+const GA_MEASUREMENT_ID = "G-P46BZR9JJB";
+const GTAG_SCRIPT = `<!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', '${GA_MEASUREMENT_ID}');
+  </script>`;
+
 const SITE = {
   url: "https://ainewsksa.com",
   name: "AI News KSA",
@@ -253,6 +264,7 @@ function head(lang, title, description, ogTitle, ogDesc, canonicalPath, articleS
   return `<!doctype html>
 <html lang="${lang}" dir="${dir}">
 <head>
+  ${GTAG_SCRIPT}
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${title}</title>
