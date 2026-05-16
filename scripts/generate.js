@@ -325,32 +325,111 @@ function footer(lang) {
 </html>`;
 }
 
-// Tag → emoji icon mapping (works across both languages)
-const TAG_ICONS = {
-  // English tags
-  "SEO": "🔍", "Programmatic content": "⚡", "Industry analysis": "📊",
-  "Sportsbook": "🎯", "AI content": "🤖", "iGaming": "🎲",
-  "Telegram": "💬", "Growth": "📈", "Restricted verticals": "🚧",
-  "Crypto marketing": "₿", "Ad networks": "📣", "Web3": "🔗",
-  "Localization": "🌍", "Multi-market": "🌐", "Content strategy": "📝",
-  "RAG": "🔬", "Production AI": "⚙️", "Quality": "✓",
-  "Ad creative": "🎨", "Agencies": "🏢", "Industry": "🏛",
-  "Lifecycle": "👤", "CRM": "📇", "Personalization": "🎯",
-  "Long-tail": "📏", "Marketing leadership": "👔", "Strategy": "♟",
-  "AI": "🤖",
-  // Arabic tags
-  "محتوى برمجي": "⚡", "تحليل قطاعي": "📊",
-  "رهان رياضي": "🎯", "ذكاء اصطناعي": "🤖",
-  "تليغرام": "💬", "نمو": "📈", "قطاعات مقيّدة": "🚧",
-  "تسويق الكريبتو": "₿", "شبكات إعلانية": "📣",
-  "التوطين": "🌍", "متعدد الأسواق": "🌐", "استراتيجية محتوى": "📝",
-  "الذكاء الاصطناعي الإنتاجي": "⚙️", "الجودة": "✓",
-  "إبداع إعلاني": "🎨", "وكالات": "🏢", "صناعة": "🏛",
-  "دورة الحياة": "👤", "التخصيص": "🎯",
-  "ذيل طويل": "📏", "إنتاج الذكاء الاصطناعي": "⚙️",
-  "قيادة التسويق": "👔", "استراتيجية": "♟",
-};
-function tagIcon(tag) { return TAG_ICONS[tag] || "📄"; }
+// Smart tag → emoji icon matching. Covers any tag the pipeline generates,
+// in English or Arabic, via pattern matching rather than enumeration.
+function tagIcon(tag) {
+  if (!tag) return "🏷";
+  const s = tag.toLowerCase();
+
+  // === English patterns (ordered most-specific → most-generic) ===
+
+  // Production/infra MUST come before commerce/product (since "production" contains "product")
+  if (/production ai|production-ai/i.test(s)) return "⚙️";
+  if (/ad pipeline|content pipeline|deploy|engine|architecture|infra|tech stack/i.test(s)) return "⚙️";
+
+  // Specific named entities
+  if (/case stud/i.test(s)) return "📋";
+  if (/sportsbook|betting|igaming|fixture|wager/i.test(s)) return "🎯";
+  if (/crypto|web3|blockchain|defi|nft|tokenomics/i.test(s)) return "₿";
+  if (/telegram/i.test(s)) return "💬";
+  if (/notebooklm|notebook/i.test(s)) return "📔";
+  if (/chatgpt|openai|claude|anthropic|gemini|grok|llama/i.test(s)) return "🤖";
+
+  // Content (must come BEFORE strategy/leadership so "content strategy" wins)
+  if (/content production|content creation/i.test(s)) return "📝";
+  if (/content strategy|content marketing|content/i.test(s)) return "📝";
+  if (/brand content|brand/i.test(s)) return "🏷";
+  if (/copywriting|writing|brief/i.test(s)) return "✍️";
+
+  // Channels and surfaces
+  if (/connected tv|ctv|streaming/i.test(s)) return "📺";
+  if (/video|short.?form/i.test(s)) return "🎬";
+  if (/podcast|audio/i.test(s)) return "🎙";
+  if (/email|newsletter/i.test(s)) return "✉️";
+  if (/social|tiktok|instagram|reddit/i.test(s)) return "📱";
+
+  // SEO / search (before "AI" generic)
+  if (/seo|search engine|long.?tail|programmatic/i.test(s)) return "🔍";
+  if (/conversational search|ai search/i.test(s)) return "💭";
+  if (/spam|abuse|fraud/i.test(s)) return "🚧";
+
+  // Advertising
+  if (/ad network|ad-network/i.test(s)) return "📡";
+  if (/advert|^ad |^ads | ad |paid media|creative|chatgpt ads/i.test(s)) return "📢";
+
+  // AI capabilities
+  if (/ai agent|^agent|workflow automation|workflow|automation|bot/i.test(s)) return "🤖";
+  if (/llm|model|fine.?tun|training|hugging face|foundation model/i.test(s)) return "🧠";
+  if (/rag|fact.?check|hallucination|verification/i.test(s)) return "✓";
+  if (/evaluation|benchmark|quality/i.test(s)) return "📐";
+  if (/transformation|innovation|reinvent/i.test(s)) return "✨";
+  if (/governance|sovereignty|policy|compliance|legal|risk|safety/i.test(s)) return "⚖️";
+
+  // Lifecycle / CRM
+  if (/crm|lifecycle|marketing automation/i.test(s)) return "🔄";
+  if (/personali[sz]ation/i.test(s)) return "🎯";
+  if (/growth/i.test(s)) return "📈";
+
+  // Marketing (generic — catches "Marketing X" tags)
+  if (/martech|marketing intelligence/i.test(s)) return "📣";
+  if (/marketing/i.test(s)) return "📣";
+
+  // Business / industry
+  if (/agency|agencies/i.test(s)) return "🏢";
+  if (/enterprise|workplace|operations|workplace ai/i.test(s)) return "🏛";
+  if (/strategy|leadership/i.test(s)) return "♟";
+  if (/analysis|insight|research|intelligence|market research|data sovereignty|data /i.test(s)) return "📊";
+  if (/analytics/i.test(s)) return "📊";
+  if (/industry/i.test(s)) return "🏛";
+
+  // E-commerce / consumer (AFTER production check)
+  if (/e.?commerce|commerce|retail|shop/i.test(s)) return "🛒";
+  if (/product description|product page|catalog/i.test(s)) return "📦";
+  if (/consumer|user|customer|audience/i.test(s)) return "👤";
+
+  // Localization / region
+  if (/mena|gcc|arabic|saudi|ksa|gulf|middle east/i.test(s)) return "🌍";
+  if (/localization|multi.?market|multilingual|language|translation/i.test(s)) return "🌐";
+
+  // Tools / restricted
+  if (/tool|tools|tooling/i.test(s)) return "🛠";
+  if (/restricted vertical/i.test(s)) return "🚧";
+
+  // === Arabic patterns ===
+  if (/ذكاء|اصطناعي|نموذج/.test(tag)) return "🤖";
+  if (/تسويق/.test(tag)) return "📣";
+  if (/محتوى/.test(tag)) return "📝";
+  if (/إعلان|إعلانات/.test(tag)) return "📢";
+  if (/وكالة|وكالات/.test(tag)) return "🏢";
+  if (/تحليل/.test(tag)) return "📊";
+  if (/استراتيجية|قيادة/.test(tag)) return "♟";
+  if (/رهان|رياضي/.test(tag)) return "🎯";
+  if (/كريبتو|بلوكشين/.test(tag)) return "₿";
+  if (/تليغرام/.test(tag)) return "💬";
+  if (/توطين|متعدد/.test(tag)) return "🌐";
+  if (/جودة|تحقق/.test(tag)) return "✓";
+  if (/إنتاج|محرك/.test(tag)) return "⚙️";
+  if (/دورة|تخصيص/.test(tag)) return "🔄";
+  if (/امتثال|قانون|تنظيم|حوكمة/.test(tag)) return "⚖️";
+  if (/فيديو/.test(tag)) return "🎬";
+  if (/صناعة|قطاع/.test(tag)) return "🏛";
+  if (/دراسة حالة|دراسة/.test(tag)) return "📋";
+  if (/نمو/.test(tag)) return "📈";
+  if (/بحث|seo/i.test(tag)) return "🔍";
+
+  // Final fallback
+  return "🏷";
+}
 
 function fmtDate(iso, lang) {
   const d = new Date(iso);
