@@ -23,15 +23,24 @@ const fs = require("fs");
 const path = require("path");
 const Anthropic = require("@anthropic-ai/sdk");
 const Parser = require("rss-parser");
+const { createClient } = require("@supabase/supabase-js");
 
 // ============ CONFIG ============
 const FEEDS = [
+  // Tech/AI news
   { name: "TechCrunch AI", url: "https://techcrunch.com/category/artificial-intelligence/feed/" },
   { name: "The Verge", url: "https://www.theverge.com/rss/index.xml" },
   { name: "VentureBeat AI", url: "https://venturebeat.com/category/ai/feed/" },
+  { name: "Wired AI", url: "https://www.wired.com/feed/tag/ai/latest/rss" },
+  { name: "Ars Technica AI", url: "https://arstechnica.com/ai/feed/" },
   { name: "MIT Technology Review", url: "https://www.technologyreview.com/topic/artificial-intelligence/feed" },
-  { name: "Marketing AI Institute", url: "https://www.marketingaiinstitute.com/blog/rss.xml" },
+  // AI labs / models
   { name: "Google AI", url: "https://blog.google/technology/ai/rss/" },
+  { name: "Hugging Face", url: "https://huggingface.co/blog/feed.xml" },
+  // AI for marketing/business (highest signal for our publication)
+  { name: "Marketing AI Institute", url: "https://www.marketingaiinstitute.com/blog/rss.xml" },
+  { name: "One Useful Thing (Ethan Mollick)", url: "https://www.oneusefulthing.org/feed" },
+  { name: "Latent Space", url: "https://www.latent.space/feed" },
 ];
 
 const FOCUS =
@@ -72,6 +81,13 @@ const anthropic = new Anthropic({
 });
 const MODEL = "claude-sonnet-4-6";
 
+// Supabase client (optional — pipeline degrades gracefully if creds missing)
+const SUPABASE_URL = process.env.SUPABASE_URL;
+const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+const supabase = (SUPABASE_URL && SUPABASE_KEY)
+  ? createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { persistSession: false } })
+  : null;
+
 // Retry on transient Anthropic errors (529 overload, 5xx, 429 rate limit)
 const RETRY_STATUSES = new Set([429, 500, 502, 503, 504, 529]);
 const MAX_RETRIES = 5;
@@ -107,9 +123,9 @@ async function callTool(toolName, toolSchema, userPrompt, maxTokens = 3000) {
   throw lastErr;
 }
 
-// ============ 01 — INGEST ============
+// ============ 01a — INGEST RSS ============
 async function ingestFeeds() {
-  console.log("[01] Ingesting feeds...");
+  console.log("[01a] Ingesting RSS feeds...");
   const parser = new Parser({ timeout: 12000, headers: { "User-Agent": "AINewsKSA/1.0 (RSS aggregator)" } });
   const items = [];
   for (const feed of FEEDS) {
@@ -122,6 +138,7 @@ async function ingestFeeds() {
           link: item.link,
           pubDate: item.pubDate || item.isoDate,
           summary: (item.contentSnippet || item.content || "").slice(0, 800),
+          isTweet: false,
         });
       });
     } catch (e) {
@@ -130,6 +147,54 @@ async function ingestFeeds() {
   }
   console.log(`  Got ${items.length} items across ${FEEDS.length} feeds`);
   return items;
+}
+
+// ============ 01b — INGEST X TWEETS (from Supabase) ============
+async function ingestTweets(alreadyTracked) {
+  console.log("[01b] Ingesting X tweets from Supabase...");
+  if (!supabase) {
+    console.log("  ! No Supabase credentials set (SUPABASE_URL + SUPABASE_SERVICE_ROLE_KEY), skipping");
+    return [];
+  }
+  try {
+    // Fetch the most recent ~200 tweets. Pipeline filters by tracked locally.
+    const { data, error } = await supabase
+      .from("x_list_tweets")
+      .select("id, tweet_id, author_username, author_name, text")
+      .order("id", { ascending: false })
+      .limit(200);
+
+    if (error) {
+      console.warn(`  ! Supabase query failed: ${error.message}`);
+      return [];
+    }
+    if (!data || data.length === 0) {
+      console.log("  Supabase returned 0 tweets");
+      return [];
+    }
+
+    // Filter out tracked. We track tweets by synthetic key "tweet:<tweet_id>"
+    const fresh = data
+      .filter(t => t.tweet_id && !alreadyTracked.includes("tweet:" + t.tweet_id))
+      .map(t => ({
+        source: `X · @${t.author_username || "unknown"}` + (t.author_name ? ` (${t.author_name})` : ""),
+        title: (t.text || "").split("\n")[0].slice(0, 140),
+        link: "tweet:" + t.tweet_id, // synthetic, used for tracking
+        url: `https://twitter.com/${t.author_username || "i"}/status/${t.tweet_id}`,
+        pubDate: null,
+        summary: t.text || "",
+        isTweet: true,
+        authorUsername: t.author_username,
+        authorName: t.author_name,
+        tweetId: t.tweet_id,
+      }));
+
+    console.log(`  Got ${data.length} tweets from Supabase (${fresh.length} fresh after dedup)`);
+    return fresh;
+  } catch (e) {
+    console.warn(`  ! Supabase ingestion error: ${e.message}`);
+    return [];
+  }
 }
 
 // ============ 02 — BRIEF GENERATION (tool use, with topic dedup) ============
@@ -162,12 +227,21 @@ async function selectAndBrief(items, alreadyTracked) {
 
   const prompt = `${FOCUS}${dedupBlock}
 
-Below are ${fresh.length} recent items from AI news feeds. Pick UP TO ${MAX_NEW_PER_RUN} most relevant stories for "AI News KSA" (AI for marketing & growth in MENA — industry analysis publication).
+Below are ${fresh.length} recent items from two source types:
+  - RSS feeds (AI news publications, analytical pieces)
+  - X tweets (from high-signal AI accounts like AnthropicAI, GoogleAIStudio, cursor_ai, NousResearch, etc.)
+
+Tweets are tagged "[TWEET]". Treat them as PRIMARY sources for breaking AI news — they often surface launches, model releases, and tooling updates 24+ hours before mainstream press picks them up.
+
+Pick UP TO ${MAX_NEW_PER_RUN} most relevant stories for "AI News KSA" (AI for marketing & growth in MENA — industry analysis publication).
 
 If fewer than ${MAX_NEW_PER_RUN} fresh non-duplicate stories exist, return only those. It is fine to return 0, 1, or ${MAX_NEW_PER_RUN}. Better to return nothing than to publish a duplicate.
 
 Items:
-${fresh.map((i, idx) => `[${idx}] ${i.source} — ${i.title}\n    ${i.summary}\n    ${i.link}`).join("\n\n")}`;
+${fresh.map((i, idx) => {
+    const prefix = i.isTweet ? "[TWEET] " : "[RSS] ";
+    return `[${idx}] ${prefix}${i.source} — ${i.title}\n    ${i.summary.slice(0, 600)}\n    ${i.link}`;
+  }).join("\n\n")}`;
 
   const schema = {
     type: "object",
@@ -202,13 +276,26 @@ async function generateArticle(brief, lang) {
   const voice = lang === "ar" ? VOICE_AR : VOICE_EN;
   const headline = lang === "ar" ? brief.headline_ar : brief.headline_en;
 
+  // For tweet sources, use the real X URL; for RSS, the article URL
+  const sourceUrl = brief.source.isTweet ? brief.source.url : brief.source.link;
+  const sourceType = brief.source.isTweet
+    ? (lang === "ar" ? "تغريدة من X (تويتر)" : "X (Twitter) post")
+    : (lang === "ar" ? "مقال إخباري" : "News article");
+
+  const tweetAttribution = brief.source.isTweet
+    ? (lang === "ar"
+        ? `\n\nهام: المصدر تغريدة من @${brief.source.authorUsername} على X. اذكر الحساب باسمه عند الاقتضاء، واربط بالتغريدة الأصلية في فقرة قصيرة في نهاية المقال.`
+        : `\n\nIMPORTANT: Source is a tweet from @${brief.source.authorUsername} on X. Reference the account by name where natural, and link back to the original tweet in a brief closing paragraph.`)
+    : "";
+
   const userPrompt = `${voice}
 
 ANGLE / الزاوية: ${brief.angle}
+SOURCE TYPE: ${sourceType}
 SOURCE / المصدر: ${brief.source.source} — "${brief.source.title}"
-SOURCE LINK: ${brief.source.link}
-SOURCE SUMMARY: ${brief.source.summary}
-PROPOSED HEADLINE / العنوان المقترح: ${headline}
+SOURCE LINK: ${sourceUrl}
+SOURCE CONTENT: ${brief.source.summary}
+PROPOSED HEADLINE / العنوان المقترح: ${headline}${tweetAttribution}
 
 Write the full article. Use only <p> and <h2> tags in the body. ${lang === "ar" ? "500-700 كلمة." : "600-800 words."}`;
 
@@ -228,13 +315,15 @@ Write the full article. Use only <p> and <h2> tags in the body. ${lang === "ar" 
 
 // ============ 05 — FACT-CHECK (tool use, RAG) ============
 async function factCheck(article, brief, lang) {
+  const sourceType = brief.source.isTweet ? "X (Twitter) post" : "News article";
   const prompt = `You are the fact-check layer of an autonomous publishing pipeline. Verify the article below against the source material it was generated from.
 
 Look for: stat contradictions, name/date/company errors, unsupported cause-effect claims, misattributed quotes, fabricated company products, fabricated statistics from named institutions.
 
-SOURCE:
-${brief.source.source} — "${brief.source.title}"
-${brief.source.summary}
+${brief.source.isTweet ? "NOTE: Source is a tweet — be especially strict. Tweets are short, so any claim in the article not supported by the tweet text counts as a hallucination unless it's clearly framed as analyst interpretation.\n" : ""}
+SOURCE TYPE: ${sourceType}
+SOURCE: ${brief.source.source} — "${brief.source.title}"
+SOURCE CONTENT: ${brief.source.summary}
 
 ARTICLE (${lang}):
 TITLE: ${article.title}
@@ -267,7 +356,11 @@ function appendArticle(article, brief, lang) {
   delete require.cache[require.resolve(file)];
   const existing = require(file);
   const tagsField = lang === "ar" ? "tags_ar" : "tags_en";
-  const slug = slugify(brief.headline_en);
+  // For tweets, slug = slug-of-headline + short tweet ID suffix to disambiguate
+  let slug = slugify(brief.headline_en);
+  if (brief.source.isTweet && brief.source.tweetId) {
+    slug = slug + "-x" + String(brief.source.tweetId).slice(-6);
+  }
   const newArticle = {
     slug,
     title: article.title,
@@ -289,7 +382,10 @@ async function run() {
   console.log(`Started ${new Date().toISOString()}\n`);
 
   const tracked = fs.existsSync(TRACKED_FILE) ? JSON.parse(fs.readFileSync(TRACKED_FILE)) : [];
-  const items = await ingestFeeds();
+  const rssItems = await ingestFeeds();
+  const tweetItems = await ingestTweets(tracked);
+  const items = [...rssItems, ...tweetItems];
+  console.log(`\n[combined] ${rssItems.length} RSS + ${tweetItems.length} tweets = ${items.length} total candidates\n`);
   const briefs = await selectAndBrief(items, tracked);
   if (briefs.length === 0) {
     console.log("\nDone (no new content).");
