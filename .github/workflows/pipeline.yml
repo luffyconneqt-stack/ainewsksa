@@ -1,11 +1,14 @@
 # AI News KSA — autonomous content pipeline
-# Runs every 6 hours. Fetches AI news → Claude generates EN + AR → fact-checks → commits → Cloudflare auto-rebuilds
+# Runs every 6 hours (00:00, 06:00, 12:00, 18:00 UTC)
+# Fetches AI news RSS → Claude generates EN + AR articles → fact-checks → commits → Cloudflare Pages auto-rebuilds
 
 name: Content Pipeline
 
 on:
   schedule:
+    # Every 6 hours. Adjust as desired.
     - cron: "0 */6 * * *"
+  # Allow manual triggering from GitHub Actions tab
   workflow_dispatch:
 
 jobs:
@@ -29,6 +32,8 @@ jobs:
         run: node scripts/pipeline.js
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
 
       - name: Commit and push if changed
         run: |
