@@ -23,7 +23,6 @@ const fs = require("fs");
 const path = require("path");
 const Anthropic = require("@anthropic-ai/sdk");
 const Parser = require("rss-parser");
-const { createClient } = require("@supabase/supabase-js");
 
 // ============ CONFIG ============
 const FEEDS = [
@@ -81,12 +80,11 @@ const anthropic = new Anthropic({
 });
 const MODEL = "claude-sonnet-4-6";
 
-// Supabase client (optional — pipeline degrades gracefully if creds missing)
+// Supabase REST API config (no library — using built-in fetch)
+// Pipeline degrades gracefully if creds missing.
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
-const supabase = (SUPABASE_URL && SUPABASE_KEY)
-  ? createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { persistSession: false } })
-  : null;
+const SUPABASE_ENABLED = Boolean(SUPABASE_URL && SUPABASE_KEY);
 
 // Retry on transient Anthropic errors (529 overload, 5xx, 429 rate limit)
 const RETRY_STATUSES = new Set([429, 500, 502, 503, 504, 529]);
@@ -149,26 +147,36 @@ async function ingestFeeds() {
   return items;
 }
 
-// ============ 01b — INGEST X TWEETS (from Supabase) ============
+// ============ 01b — INGEST X TWEETS (Supabase REST API via fetch) ============
 async function ingestTweets(alreadyTracked) {
   console.log("[01b] Ingesting X tweets from Supabase...");
-  if (!supabase) {
+  if (!SUPABASE_ENABLED) {
     console.log("  ! No Supabase credentials set (SUPABASE_URL + SUPABASE_SERVICE_ROLE_KEY), skipping");
     return [];
   }
   try {
-    // Fetch the most recent ~200 tweets. Pipeline filters by tracked locally.
-    const { data, error } = await supabase
-      .from("x_list_tweets")
-      .select("id, tweet_id, author_username, author_name, text")
-      .order("id", { ascending: false })
-      .limit(200);
+    // PostgREST query — supabase exposes /rest/v1/<table>
+    const url = `${SUPABASE_URL}/rest/v1/x_list_tweets`
+      + `?select=id,tweet_id,author_username,author_name,text`
+      + `&order=id.desc`
+      + `&limit=200`;
 
-    if (error) {
-      console.warn(`  ! Supabase query failed: ${error.message}`);
+    const res = await fetch(url, {
+      headers: {
+        "apikey": SUPABASE_KEY,
+        "Authorization": `Bearer ${SUPABASE_KEY}`,
+        "Accept": "application/json",
+      },
+    });
+
+    if (!res.ok) {
+      const body = await res.text().catch(() => "");
+      console.warn(`  ! Supabase REST returned ${res.status} ${res.statusText}: ${body.slice(0, 200)}`);
       return [];
     }
-    if (!data || data.length === 0) {
+
+    const data = await res.json();
+    if (!Array.isArray(data) || data.length === 0) {
       console.log("  Supabase returned 0 tweets");
       return [];
     }
@@ -179,7 +187,7 @@ async function ingestTweets(alreadyTracked) {
       .map(t => ({
         source: `X · @${t.author_username || "unknown"}` + (t.author_name ? ` (${t.author_name})` : ""),
         title: (t.text || "").split("\n")[0].slice(0, 140),
-        link: "tweet:" + t.tweet_id, // synthetic, used for tracking
+        link: "tweet:" + t.tweet_id,
         url: `https://twitter.com/${t.author_username || "i"}/status/${t.tweet_id}`,
         pubDate: null,
         summary: t.text || "",
