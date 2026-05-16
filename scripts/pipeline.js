@@ -59,20 +59,39 @@ Editorial conventions:
 - Analytical, not promotional. Skeptical of vendor claims.
 - No marketing fluff, no exclamation points, no "in today's fast-paced world."
 - Concrete numbers and specific examples over abstract claims.
-- Reference specific products / companies / vendors when relevant. Never imply endorsement.
-- Where natural, frame implications for MENA / GCC / KSA operators specifically.
-- 600-800 words. HTML body with only <p> and <h2> tags.`;
+
+CRITICAL — what is and isn't allowed:
+- DO NOT invent specific company names, statistics, regulatory bodies, products, dates, quotes, or named individuals that are not in the source material. This is the #1 fact-check failure mode.
+- DO NOT put analytical conclusions in the source's mouth (e.g. "MIT Technology Review concludes X" when the source didn't conclude that).
+- YOU CAN add your own analytical framing, generalizations about MENA/GCC market dynamics, and interpretive commentary — as long as it's clearly YOUR interpretation, not attributed to the source.
+- When extending the source's themes with original analysis, use phrasing like "the implication for MENA operators is...", "for GCC banks more broadly, this means...", "while the source focuses on X, the same pattern likely applies to Y..."
+
+Output:
+- Reference specific products / companies / vendors only when they are in the source. Never imply endorsement.
+- Where natural, frame implications for MENA / GCC / KSA operators — but as analyst commentary, not as sourced fact.
+- Length: 600-800 words for RSS-sourced articles. 400-600 words for tweet-sourced articles (shorter source = shorter article).
+- HTML body with only <p> and <h2> tags.`;
 
 const VOICE_AR = `أنت تكتب لـ "أخبار الذكاء الاصطناعي KSA"، نشرة تحليل قطاعي عن الذكاء الاصطناعي للتسويق والنمو في أسواق الشرق الأوسط وشمال أفريقيا.
 الاتفاقيات التحريرية:
 - تحليلي وليس ترويجياً. متشكك في ادعاءات البائعين.
 - لا حشو تسويقي. لا علامات تعجب.
 - أرقام محددة وأمثلة ملموسة مفضلة على الادعاءات المجردة.
-- اذكر منتجات / شركات / موردين محددين عند الصلة. لا تذكر الموردين بطريقة توحي بالتأييد.
-- حيث يكون طبيعياً، أطّر الآثار على مشغّلي الشرق الأوسط / الخليج / السعودية تحديداً.
+
+حاسم — ما هو مسموح وما ليس كذلك:
+- لا تخترع أسماء شركات أو إحصاءات أو هيئات تنظيمية أو منتجات أو تواريخ أو اقتباسات أو أفراد مذكورين بأسمائهم لم ترد في المادة المصدرية. هذه هي السبب الأول لفشل التحقق من الحقائق.
+- لا تنسب استنتاجات تحليلية للمصدر (مثل "تستنتج MIT Technology Review أن X" بينما المصدر لم يستنتج ذلك).
+- يمكنك إضافة تأطير تحليلي خاص بك، وتعميمات حول ديناميكيات سوق الشرق الأوسط / الخليج، وتعليق تفسيري — طالما كان من الواضح أنه تفسيرك أنت، وليس منسوباً للمصدر.
+- عند توسيع موضوعات المصدر بتحليل أصلي، استخدم صياغات مثل "الانعكاس على المشغّلين في الشرق الأوسط هو..."، "بالنسبة للبنوك الخليجية بشكل أوسع، هذا يعني..."، "بينما يركز المصدر على X، فإن النمط نفسه ربما ينطبق على Y...".
+
+الناتج:
+- اذكر المنتجات / الشركات / الموردين المحددين فقط عندما يكونون في المصدر. لا تذكر الموردين بطريقة توحي بالتأييد.
+- حيث يكون طبيعياً، أطّر الآثار على مشغّلي الشرق الأوسط / الخليج / السعودية — لكن كتعليق محلل، وليس كحقيقة منسوبة للمصدر.
 - العربية الفصحى الحديثة (MSA)، بنبرة أعمال احترافية.
-- 500-700 كلمة. متن HTML بعلامات <p> و <h2> فقط.
-- هذه كتابة أصلية وليست ترجمة من الإنجليزية. ابدأ من بيانات القصة المصدرية مباشرة.`;
+- الطول: 500-700 كلمة للمقالات من مصادر RSS. 350-500 كلمة للمقالات من مصادر تغريدات.
+- متن HTML بعلامات <p> و <h2> فقط.
+- هذه كتابة أصلية وليست ترجمة من الإنجليزية. ابدأ من بيانات القصة المصدرية مباشرة.
+- اكتب أسماء العلم بدقة. مثلاً: Claude (وليس Claud)، OpenAI، Anthropic، إلخ.`;
 
 const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
@@ -324,11 +343,36 @@ Write the full article. Use only <p> and <h2> tags in the body. ${lang === "ar" 
 // ============ 05 — FACT-CHECK (tool use, RAG) ============
 async function factCheck(article, brief, lang) {
   const sourceType = brief.source.isTweet ? "X (Twitter) post" : "News article";
-  const prompt = `You are the fact-check layer of an autonomous publishing pipeline. Verify the article below against the source material it was generated from.
+  const prompt = `You are the fact-check layer of an autonomous publishing pipeline for an industry analysis publication on AI for marketing in MENA.
 
-Look for: stat contradictions, name/date/company errors, unsupported cause-effect claims, misattributed quotes, fabricated company products, fabricated statistics from named institutions.
+This publication has TWO categories of content. Distinguish them carefully:
 
-${brief.source.isTweet ? "NOTE: Source is a tweet — be especially strict. Tweets are short, so any claim in the article not supported by the tweet text counts as a hallucination unless it's clearly framed as analyst interpretation.\n" : ""}
+(A) SOURCED CLAIMS — anything the article presents as fact about the world: specific named companies/products/individuals, statistics, dates, regulatory bodies, quoted material, or attributed conclusions ("Source X said Y").
+These MUST be supported by the source material.
+
+(B) ANALYTICAL COMMENTARY — the writer's interpretation, generalizations about market dynamics, framing of implications, MENA/GCC context.
+These do NOT need to be in the source. The publication's editorial mandate is to extend stories with MENA-relevant analysis. This is the writer's job, not a hallucination.
+
+How to tell them apart:
+- "Al Rajhi Bank's open-banking framework requires X" → category A (sourced claim about a specific named bank). MUST be in source.
+- "For GCC banks more broadly, the implication is that data quality matters more than model choice" → category B (writer's interpretation about a category of operators). OK without source backing.
+- "MIT Technology Review concludes that data readiness is the deciding factor" → category A (attributed conclusion). MUST be in source.
+- "The pattern suggests that operators who underinvested in data plumbing will struggle to deploy agentic systems" → category B (writer's interpretation, no attribution to source). OK without source backing.
+
+FAIL THE ARTICLE if you find:
+- Specific named companies, products, individuals, or regulatory bodies mentioned that don't appear in the source
+- Statistics or numbers cited that don't appear in the source
+- Quotes attributed to anyone not actually quoted in the source
+- Conclusions or analytical positions attributed to the source ("the source says/concludes/argues X") when the source didn't say that
+- Spelled-wrong proper nouns (e.g. "Claud" when it should be "Claude")
+- Dates that are factually wrong
+
+PASS THE ARTICLE if:
+- All category-A content is verified against the source
+- Category-B commentary is clearly the writer's framing (uses phrases like "the implication is", "for MENA operators more broadly", "the pattern suggests")
+- Proper nouns are spelled correctly
+${brief.source.isTweet ? "\nNOTE: Source is a tweet. Tweet-sourced articles will necessarily be MOSTLY analytical commentary (category B) since the source is short. That's fine. Only fail if specific facts/companies/statistics are invented." : ""}
+
 SOURCE TYPE: ${sourceType}
 SOURCE: ${brief.source.source} — "${brief.source.title}"
 SOURCE CONTENT: ${brief.source.summary}
