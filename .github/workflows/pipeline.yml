@@ -39,10 +39,23 @@ jobs:
         run: |
           git config user.name "AI News KSA Pipeline"
           git config user.email "pipeline@ainewsksa.com"
+          # Pull any remote changes first to avoid race with manual pushes
+          git pull --rebase origin main || true
           git add articles/ public/
           if git diff --staged --quiet; then
             echo "No changes to commit."
-          else
-            git commit -m "pipeline: new articles ($(date -u +%Y-%m-%dT%H:%M:%SZ))"
-            git push
+            exit 0
           fi
+          git commit -m "pipeline: new articles ($(date -u +%Y-%m-%dT%H:%M:%SZ))"
+          # Retry push with rebase loop in case remote drifts during our run
+          for attempt in 1 2 3 4 5; do
+            if git push; then
+              echo "Pushed successfully on attempt $attempt"
+              exit 0
+            fi
+            echo "Push attempt $attempt failed, pulling with rebase and retrying..."
+            git pull --rebase origin main || true
+            sleep $((attempt * 3))
+          done
+          echo "Failed to push after 5 attempts"
+          exit 1
