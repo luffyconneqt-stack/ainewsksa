@@ -21,6 +21,18 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://ainewsksa.com/articles/alexa-can-now-generate-podcasts-on-demand-what-it-means-for-arabic-audio-content.html</loc>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ainewsksa.com/articles/why-finance-departments-in-the-gcc-are-deploying-ai-backwards-and-what-the-regul.html</loc>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://ainewsksa.com/articles/mira-murati-s-blueprint-for-human-ai-collaboration-what-it-means-for-marketing-t.html</loc>
     <lastmod>2026-05-18</lastmod>
     <changefreq>monthly</changefreq>
@@ -233,6 +245,18 @@
   <url>
     <loc>https://ainewsksa.com/articles/we-already-have-ai-trap.html</loc>
     <lastmod>2026-04-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ainewsksa.com/ar/articles/alexa-can-now-generate-podcasts-on-demand-what-it-means-for-arabic-audio-content.html</loc>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ainewsksa.com/ar/articles/why-finance-departments-in-the-gcc-are-deploying-ai-backwards-and-what-the-regul.html</loc>
+    <lastmod>2026-05-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
