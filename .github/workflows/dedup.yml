@@ -49,10 +49,20 @@ jobs:
         run: |
           git config user.name "AI News KSA Dedup"
           git config user.email "dedup@ainewsksa.com"
+          git pull --rebase origin main || true
           git add articles/ public/
           if git diff --staged --quiet; then
             echo "No changes to commit."
-          else
-            git commit -m "dedup: remove duplicate articles"
-            git push
+            exit 0
           fi
+          git commit -m "dedup: remove duplicate articles"
+          for attempt in 1 2 3 4 5; do
+            if git push; then
+              echo "Pushed successfully on attempt $attempt"
+              exit 0
+            fi
+            echo "Push attempt $attempt failed, pulling with rebase and retrying..."
+            git pull --rebase origin main || true
+            sleep $((attempt * 3))
+          done
+          exit 1
