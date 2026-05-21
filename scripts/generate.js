@@ -36,6 +36,30 @@ const AR_DIR = path.join(PUBLIC, "ar");
 const ARTICLES_AR_DIR = path.join(AR_DIR, "articles");
 const API_DIR = path.join(PUBLIC, "api");
 
+// Site-wide Organization + WebSite structured data (entity recognition + sitelinks)
+const SITE_SCHEMA = `<script type="application/ld+json">${JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": SITE.url + "/#organization",
+      "name": SITE.name,
+      "url": SITE.url,
+      "description": SITE.description,
+      "sameAs": ["https://conneqtme.com"]
+    },
+    {
+      "@type": "WebSite",
+      "@id": SITE.url + "/#website",
+      "url": SITE.url,
+      "name": SITE.name,
+      "description": SITE.description,
+      "publisher": { "@id": SITE.url + "/#organization" },
+      "inLanguage": ["en", "ar"]
+    }
+  ]
+})}</script>`;
+
 // ============ STYLES ============
 const baseCSS = `
 :root {
@@ -261,6 +285,13 @@ function head(lang, title, description, ogTitle, ogDesc, canonicalPath, articleS
   const c = COPY[lang];
   const homeHref = lang === "ar" ? "/ar/" : "/";
   const aboutHref = lang === "ar" ? "/ar/about.html" : "/about.html";
+  // Compute the EN + AR variant URLs of THIS page for hreflang cluster.
+  // IMPORTANT: check "/ar/" with trailing slash — "/articles/..." starts with "/ar" but is NOT Arabic.
+  const isArabicPath = canonicalPath === "/ar/" || canonicalPath.startsWith("/ar/");
+  const enPath = isArabicPath ? (canonicalPath.replace(/^\/ar/, "") || "/") : canonicalPath;
+  const arPath = isArabicPath ? canonicalPath : ("/ar" + canonicalPath);
+  const enUrl = SITE.url + enPath;
+  const arUrl = SITE.url + arPath;
   return `<!doctype html>
 <html lang="${lang}" dir="${dir}">
 <head>
@@ -270,9 +301,9 @@ function head(lang, title, description, ogTitle, ogDesc, canonicalPath, articleS
   <title>${title}</title>
   <meta name="description" content="${description}">
   <link rel="canonical" href="${url}">
-  <link rel="alternate" hreflang="en" href="${SITE.url}${canonicalPath.startsWith("/ar") ? canonicalPath.replace(/^\/ar/, "") : canonicalPath}">
-  <link rel="alternate" hreflang="ar" href="${SITE.url}${canonicalPath.startsWith("/ar") ? canonicalPath : "/ar" + canonicalPath}">
-  <link rel="alternate" hreflang="x-default" href="${SITE.url}/">
+  <link rel="alternate" hreflang="en" href="${enUrl}">
+  <link rel="alternate" hreflang="ar" href="${arUrl}">
+  <link rel="alternate" hreflang="x-default" href="${enUrl}">
   <meta property="og:title" content="${ogTitle || title}">
   <meta property="og:description" content="${ogDesc || description}">
   <meta property="og:type" content="${articleSchema ? "article" : "website"}">
@@ -286,6 +317,7 @@ function head(lang, title, description, ogTitle, ogDesc, canonicalPath, articleS
   <meta name="theme-color" content="#0A0A0A">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%230A0A0A'/%3E%3Ctext x='50' y='62' font-size='52' font-weight='800' text-anchor='middle' fill='%232BFF52' font-family='-apple-system,sans-serif'%3EC.%3C/text%3E%3C/svg%3E">
   <style>${baseCSS}</style>
+  ${SITE_SCHEMA}
   ${articleSchema || ""}
 </head>
 <body>
@@ -650,11 +682,14 @@ function aboutHTML(lang) {
 
 // ============ SITEMAP / ROBOTS ============
 function sitemap() {
+  // Freshest article date drives homepage lastmod (signals Google the site updates often)
+  const newestEN = articlesEN.length ? [...articlesEN].sort((a, b) => b.date.localeCompare(a.date))[0].date : new Date().toISOString().slice(0, 10);
+  const newestAR = articlesAR.length ? [...articlesAR].sort((a, b) => b.date.localeCompare(a.date))[0].date : newestEN;
   const urls = [
-    { loc: SITE.url + "/", changefreq: "daily", priority: "1.0" },
-    { loc: SITE.url + "/about.html", changefreq: "monthly", priority: "0.6" },
-    { loc: SITE.url + "/ar/", changefreq: "daily", priority: "1.0" },
-    { loc: SITE.url + "/ar/about.html", changefreq: "monthly", priority: "0.6" },
+    { loc: SITE.url + "/", lastmod: newestEN, changefreq: "daily", priority: "1.0" },
+    { loc: SITE.url + "/about.html", lastmod: newestEN, changefreq: "monthly", priority: "0.6" },
+    { loc: SITE.url + "/ar/", lastmod: newestAR, changefreq: "daily", priority: "1.0" },
+    { loc: SITE.url + "/ar/about.html", lastmod: newestAR, changefreq: "monthly", priority: "0.6" },
     ...articlesEN.map(a => ({
       loc: `${SITE.url}/articles/${a.slug}.html`,
       lastmod: a.date,
