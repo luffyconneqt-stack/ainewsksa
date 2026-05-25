@@ -2,27 +2,39 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://ainewsksa.com/</loc>
-    <lastmod>2026-05-23</lastmod>
+    <lastmod>2026-05-25</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://ainewsksa.com/about.html</loc>
-    <lastmod>2026-05-23</lastmod>
+    <lastmod>2026-05-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://ainewsksa.com/ar/</loc>
-    <lastmod>2026-05-23</lastmod>
+    <lastmod>2026-05-25</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://ainewsksa.com/ar/about.html</loc>
-    <lastmod>2026-05-23</lastmod>
+    <lastmod>2026-05-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://ainewsksa.com/articles/can-ai-actually-understand-the-world-why-the-answer-should-change-how-gcc-market.html</loc>
+    <lastmod>2026-05-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ainewsksa.com/articles/ferrari-and-ibm-are-using-ai-to-engineer-f1-superfans-here-s-what-gcc-sports-and.html</loc>
+    <lastmod>2026-05-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://ainewsksa.com/articles/ai-startups-are-gaming-their-revenue-metrics-and-gcc-investors-need-to-read-the-.html</loc>
@@ -387,6 +399,18 @@
   <url>
     <loc>https://ainewsksa.com/articles/we-already-have-ai-trap.html</loc>
     <lastmod>2026-04-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ainewsksa.com/ar/articles/can-ai-actually-understand-the-world-why-the-answer-should-change-how-gcc-market.html</loc>
+    <lastmod>2026-05-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ainewsksa.com/ar/articles/ferrari-and-ibm-are-using-ai-to-engineer-f1-superfans-here-s-what-gcc-sports-and.html</loc>
+    <lastmod>2026-05-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
