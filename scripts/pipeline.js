@@ -365,13 +365,15 @@ FAIL THE ARTICLE if you find:
 - Quotes attributed to anyone not actually quoted in the source
 - Conclusions or analytical positions attributed to the source ("the source says/concludes/argues X") when the source didn't say that
 - Spelled-wrong proper nouns (e.g. "Claud" when it should be "Claude")
-- Dates that are factually wrong
+- Dates that directly contradict the source material (do NOT flag a date merely for being in the current year — see CURRENT DATE below)
 
 PASS THE ARTICLE if:
 - All category-A content is verified against the source
 - Category-B commentary is clearly the writer's framing (uses phrases like "the implication is", "for MENA operators more broadly", "the pattern suggests")
 - Proper nouns are spelled correctly
 ${brief.source.isTweet ? "\nNOTE: Source is a tweet. Tweet-sourced articles will necessarily be MOSTLY analytical commentary (category B) since the source is short. That's fine. Only fail if specific facts/companies/statistics are invented." : ""}
+
+CURRENT DATE: ${new Date().toISOString().slice(0, 10)} (the current year is ${new Date().getFullYear()}). This is the present day, not the future. Do NOT treat dates in ${new Date().getFullYear()} or the recent past as "impossible," "future," or "fabricated" — they are current and valid. Only question a date if it directly conflicts with what the source material states.
 
 SOURCE TYPE: ${sourceType}
 SOURCE: ${brief.source.source} — "${brief.source.title}"
