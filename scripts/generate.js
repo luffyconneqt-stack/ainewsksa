@@ -565,7 +565,14 @@ function articleHTML(a, lang) {
   const aboutHref = lang === "ar" ? "/ar/about.html" : "/about.html";
   const sorted = [...articles].sort((x, y) => y.date.localeCompare(x.date));
   const idx = sorted.findIndex(x => x.slug === a.slug);
-  const related = sorted.filter((_, i) => i !== idx).slice(0, 3);
+  // Topical "related": prefer articles sharing the most tags with this one,
+  // tie-break by recency. Falls back to most-recent when nothing shares a tag.
+  const related = sorted
+    .filter((_, i) => i !== idx)
+    .map(o => ({ art: o, shared: o.tags.filter(t => a.tags.includes(t)).length }))
+    .sort((x, y) => (y.shared - x.shared) || y.art.date.localeCompare(x.art.date))
+    .slice(0, 3)
+    .map(s => s.art);
 
   const schema = `<script type="application/ld+json">${JSON.stringify({
     "@context": "https://schema.org",
