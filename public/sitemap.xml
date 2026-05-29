@@ -2,27 +2,39 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://ainewsksa.com/</loc>
-    <lastmod>2026-05-28</lastmod>
+    <lastmod>2026-05-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://ainewsksa.com/about.html</loc>
-    <lastmod>2026-05-28</lastmod>
+    <lastmod>2026-05-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://ainewsksa.com/ar/</loc>
-    <lastmod>2026-05-28</lastmod>
+    <lastmod>2026-05-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://ainewsksa.com/ar/about.html</loc>
-    <lastmod>2026-05-28</lastmod>
+    <lastmod>2026-05-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://ainewsksa.com/articles/glean-hit-300m-arr-by-cutting-ai-budgets-the-gcc-enterprise-playbook-every-cmo-n.html</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ainewsksa.com/articles/the-internet-is-being-rebuilt-for-machines-and-gcc-marketing-teams-are-operating.html</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://ainewsksa.com/articles/asana-just-bought-the-no-code-agent-builder-gcc-marketing-teams-have-been-waitin.html</loc>
@@ -453,6 +465,18 @@
   <url>
     <loc>https://ainewsksa.com/articles/per-user-content-adaptation-lifecycle.html</loc>
     <lastmod>2026-05-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ainewsksa.com/ar/articles/glean-hit-300m-arr-by-cutting-ai-budgets-the-gcc-enterprise-playbook-every-cmo-n.html</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ainewsksa.com/ar/articles/the-internet-is-being-rebuilt-for-machines-and-gcc-marketing-teams-are-operating.html</loc>
+    <lastmod>2026-05-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
