@@ -25,6 +25,18 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://ainewsksa.com/articles/trump-s-watered-down-ai-oversight-order-is-a-risk-signal-every-gcc-enterprise-le.html</loc>
+    <lastmod>2026-06-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ainewsksa.com/articles/uk-regulators-just-gave-publishers-the-right-to-opt-out-of-google-s-ai-search-an.html</loc>
+    <lastmod>2026-06-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://ainewsksa.com/articles/gm-cut-a-15-hour-process-to-60-seconds-with-ai-the-operational-blueprint-every-g.html</loc>
     <lastmod>2026-06-03</lastmod>
     <changefreq>monthly</changefreq>
@@ -597,6 +609,18 @@
   <url>
     <loc>https://ainewsksa.com/articles/per-user-content-adaptation-lifecycle.html</loc>
     <lastmod>2026-05-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ainewsksa.com/ar/articles/trump-s-watered-down-ai-oversight-order-is-a-risk-signal-every-gcc-enterprise-le.html</loc>
+    <lastmod>2026-06-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ainewsksa.com/ar/articles/uk-regulators-just-gave-publishers-the-right-to-opt-out-of-google-s-ai-search-an.html</loc>
+    <lastmod>2026-06-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
