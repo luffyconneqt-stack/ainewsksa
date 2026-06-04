@@ -1,9 +1,23 @@
 {
   "site": "AI News KSA",
   "language": "ar",
-  "generated_at": "2026-06-04T03:41:35.931Z",
-  "article_count": 104,
+  "generated_at": "2026-06-04T09:54:36.695Z",
+  "article_count": 105,
   "articles": [
+    {
+      "slug": "corporate-america-is-rationing-ai-and-gcc-marketing-leaders-need-a-cost-governan",
+      "title": "الشركات الكبرى تُقيّد إنفاقها على الذكاء الاصطناعي — وقادة التسويق في الخليج بحاجة إلى نموذج حوكمة للتكاليف قبل فوات الأوان",
+      "dek": "تكشف تقارير من Axios وThe Wall Street Journal أن شركات أمريكية كبرى استنفدت ميزانياتها السنوية للذكاء الاصطناعي في أشهر معدودة، وهو تحذير مباشر لمديري التسويق في الخليج لبناء نماذج حوكمة تكاليف مستقلة قبل تفاقم المشكلة.",
+      "date": "2026-06-04",
+      "tags": [
+        "ميزانية الذكاء الاصطناعي",
+        "العائد على الاستثمار التسويقي",
+        "تكاليف الذكاء الاصطناعي للمؤسسات"
+      ],
+      "read_time": "قراءة 4 دقائق",
+      "url": "https://ainewsksa.com/ar/articles/corporate-america-is-rationing-ai-and-gcc-marketing-leaders-need-a-cost-governan.html",
+      "body_html": "<p>بدأت شركات في قطاع الأعمال الأمريكي تفرض قيوداً على استخدام الذكاء الاصطناعي داخلياً، وفق ما رصدته تقارير Axios وThe Wall Street Journal. بعض هذه الشركات أنهت ميزانيتها السنوية المخصصة للذكاء الاصطناعي في غضون أشهر قليلة فحسب، فيما شهدت شركات أخرى تضاعفاً أو تضاعفاً ثلاثياً في الإنفاق دون أي إنذار مسبق. يُؤطّر معهد Marketing AI Institute هذا الواقع لا بوصفه إسرافاً معزولاً، بل أزمة هيكلية في نماذج الميزانية ذاتها."
+    },
     {
       "slug": "openai-and-anthropic-are-writing-the-laws-that-will-govern-their-own-tools-what-",
       "title": "أوبن إيه آي وأنثروبيك يكتبان القوانين التي ستحكم أدواتهما — ما يجب على قادة المؤسسات الخليجية فهمه الآن",
