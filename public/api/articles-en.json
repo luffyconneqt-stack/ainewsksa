@@ -1,9 +1,21 @@
 {
   "site": "AI News KSA",
   "language": "en",
-  "generated_at": "2026-06-06T02:50:32.907Z",
-  "article_count": 116,
+  "generated_at": "2026-06-06T08:29:48.043Z",
+  "article_count": 117,
   "articles": [
+    {
+      "slug": "skip",
+      "title": "SKIP",
+      "dek": "This article has been flagged for skipping: it duplicates existing coverage of the Meta AI hack and AI security topic already published on AI News KSA.",
+      "date": "2026-06-06",
+      "tags": [
+        "SKIP"
+      ],
+      "read_time": "1 min read",
+      "url": "https://ainewsksa.com/articles/skip.html",
+      "body_html": "<p>SKIP — Do not publish. This piece duplicates existing Meta AI hack / AI security coverage already in the archive. Per editorial review, no new angle warrants a separate article at this time.</p>"
+    },
     {
       "slug": "governments-are-now-benchmarking-llms-for-propaganda-resistance-and-gcc-marketer",
       "title": "Governments Are Now Benchmarking LLMs for Propaganda Resistance — And GCC Marketers Are Buying Models Without Asking the Question",

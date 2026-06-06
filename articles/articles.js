@@ -1,5 +1,16 @@
 module.exports = [
   {
+    "slug": "skip",
+    "title": "SKIP",
+    "dek": "This article has been flagged for skipping: it duplicates existing coverage of the Meta AI hack and AI security topic already published on AI News KSA.",
+    "date": "2026-06-06",
+    "tags": [
+      "SKIP"
+    ],
+    "readTime": "1 min read",
+    "body": "<p>SKIP — Do not publish. This piece duplicates existing Meta AI hack / AI security coverage already in the archive. Per editorial review, no new angle warrants a separate article at this time.</p>"
+  },
+  {
     "slug": "governments-are-now-benchmarking-llms-for-propaganda-resistance-and-gcc-marketer",
     "title": "Governments Are Now Benchmarking LLMs for Propaganda Resistance — And GCC Marketers Are Buying Models Without Asking the Question",
     "dek": "Estonia's state-level benchmark stress-testing LLMs against disinformation exposes a governance gap that GCC marketing technology procurement has not begun to address, raising brand safety questions that vendor scorecards currently ignore.",
