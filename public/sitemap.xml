@@ -25,6 +25,12 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://ainewsksa.com/articles/both-sides-of-the-ai-race-are-backed-by-the-same-money-what-gcc-marketing-leader.html</loc>
+    <lastmod>2026-06-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://ainewsksa.com/articles/microsoft-s-ai-products-are-underperforming-and-gcc-enterprises-built-on-copilot.html</loc>
     <lastmod>2026-06-07</lastmod>
     <changefreq>monthly</changefreq>
@@ -747,6 +753,12 @@
   <url>
     <loc>https://ainewsksa.com/articles/per-user-content-adaptation-lifecycle.html</loc>
     <lastmod>2026-05-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ainewsksa.com/ar/articles/both-sides-of-the-ai-race-are-backed-by-the-same-money-what-gcc-marketing-leader.html</loc>
+    <lastmod>2026-06-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
