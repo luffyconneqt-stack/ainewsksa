@@ -140,6 +140,15 @@ async function callTool(toolName, toolSchema, userPrompt, maxTokens = 3000) {
   throw lastErr;
 }
 
+// ============ UTF-16 SANITIZER ============
+// Strip lone UTF-16 surrogates (broken/truncated emojis from upstream sources).
+// The Anthropic API rejects request bodies whose JSON contains lone surrogates.
+function clean(s) {
+  return typeof s === "string"
+    ? s.replace(/[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?<![\uD800-\uDBFF])[\uDC00-\uDFFF]/g, "")
+    : s;
+}
+
 // ============ 01a — INGEST RSS ============
 async function ingestFeeds() {
   console.log("[01a] Ingesting RSS feeds...");
@@ -151,10 +160,10 @@ async function ingestFeeds() {
       result.items.slice(0, 10).forEach(item => {
         items.push({
           source: feed.name,
-          title: item.title,
+          title: clean(item.title),
           link: item.link,
           pubDate: item.pubDate || item.isoDate,
-          summary: (item.contentSnippet || item.content || "").slice(0, 800),
+          summary: clean((item.contentSnippet || item.content || "").slice(0, 800)),
           isTweet: false,
         });
       });
@@ -204,15 +213,15 @@ async function ingestTweets(alreadyTracked) {
     const fresh = data
       .filter(t => t.tweet_id && !alreadyTracked.includes("tweet:" + t.tweet_id))
       .map(t => ({
-        source: `X · @${t.author_username || "unknown"}` + (t.author_name ? ` (${t.author_name})` : ""),
-        title: (t.text || "").split("\n")[0].slice(0, 140),
+        source: clean(`X · @${t.author_username || "unknown"}` + (t.author_name ? ` (${t.author_name})` : "")),
+        title: clean((t.text || "").split("\n")[0].slice(0, 140)),
         link: "tweet:" + t.tweet_id,
         url: `https://twitter.com/${t.author_username || "i"}/status/${t.tweet_id}`,
         pubDate: null,
-        summary: t.text || "",
+        summary: clean(t.text || ""),
         isTweet: true,
-        authorUsername: t.author_username,
-        authorName: t.author_name,
+        authorUsername: clean(t.author_username),
+        authorName: clean(t.author_name),
         tweetId: t.tweet_id,
       }));
 
