@@ -35,6 +35,7 @@ const FEEDS = [
   { name: "MIT Technology Review", url: "https://www.technologyreview.com/topic/artificial-intelligence/feed" },
   // AI labs / models
   { name: "Google AI", url: "https://blog.google/technology/ai/rss/" },
+  { name: "OpenAI", url: "https://openai.com/news/rss.xml" },
   { name: "Hugging Face", url: "https://huggingface.co/blog/feed.xml" },
   // AI for marketing/business (highest signal for our publication)
   { name: "Marketing AI Institute", url: "https://www.marketingaiinstitute.com/blog/rss.xml" },
@@ -47,7 +48,42 @@ const FOCUS =
   "Industry analysis, not product announcements. Particular relevance " +
   "to MENA / GCC / KSA markets where possible.";
 
-const MAX_NEW_PER_RUN = 2;
+// Fixed canonical taxonomy. Articles must be tagged with 2-3 entries from these lists.
+// EN and AR lists are index-aligned (TAXONOMY_EN[i] is the Arabic counterpart of TAXONOMY_AR[i]).
+const TAXONOMY_EN = [
+  "AI Strategy",
+  "Vendor Launches",
+  "Agentic AI",
+  "AI Workforce",
+  "Marketing AI",
+  "Customer Experience",
+  "E-commerce & Retail",
+  "Content & Creator AI",
+  "Fintech & Banking AI",
+  "Sovereign & Bilingual AI",
+  "AI Governance",
+  "AI Economics",
+  "Open Source & Research",
+  "Industry Analysis",
+];
+const TAXONOMY_AR = [
+  "استراتيجية الذكاء الاصطناعي",
+  "إطلاقات الموردين",
+  "الذكاء الاصطناعي الوكيلي",
+  "القوى العاملة بالذكاء الاصطناعي",
+  "ذكاء اصطناعي للتسويق",
+  "تجربة العملاء",
+  "التجارة الإلكترونية والتجزئة",
+  "ذكاء اصطناعي للمحتوى والمبدعين",
+  "ذكاء اصطناعي للبنوك والتمويل",
+  "ذكاء اصطناعي سيادي وثنائي اللغة",
+  "حوكمة الذكاء الاصطناعي",
+  "اقتصاديات الذكاء الاصطناعي",
+  "مصدر مفتوح وأبحاث",
+  "تحليل قطاعي",
+];
+
+const MAX_NEW_PER_RUN = 3;
 const DEDUP_LOOKBACK_DAYS = 30;
 const ARTICLES_DIR = path.resolve(__dirname, "../articles");
 const ARTICLES_EN_FILE = path.join(ARTICLES_DIR, "articles.js");
@@ -269,9 +305,20 @@ Below are ${fresh.length} recent items from two source types:
 
 Tweets are tagged "[TWEET]". Treat them as PRIMARY sources for breaking AI news — they often surface launches, model releases, and tooling updates 24+ hours before mainstream press picks them up.
 
+LAUNCH PRIORITY — These ALWAYS jump the queue, even ahead of broader analytical pieces:
+  • Major model releases (any new Claude, GPT, Gemini, Llama, Grok, Mistral, DeepSeek, Qwen, etc.)
+  • Major product launches from Anthropic, OpenAI, Google / DeepMind, Meta, Microsoft, xAI, Apple Intelligence, Cursor, Perplexity
+  • Significant AI funding rounds, IPOs, or acquisitions (>$100M)
+  • Regulatory or policy news affecting AI in GCC / EU / US
+If a launch-class item appears in the list (RSS or tweet), AT LEAST ONE of your selections MUST be that launch — even if it means picking fewer broader analyses. MENA marketers need launches the same day they happen, not days later.
+
 Pick UP TO ${MAX_NEW_PER_RUN} most relevant stories for "AI News KSA" (AI for marketing & growth in MENA — industry analysis publication).
 
-If fewer than ${MAX_NEW_PER_RUN} fresh non-duplicate stories exist, return only those. It is fine to return 0, 1, or ${MAX_NEW_PER_RUN}. Better to return nothing than to publish a duplicate.
+If fewer than ${MAX_NEW_PER_RUN} fresh non-duplicate stories exist, return only those. It is fine to return 0, 1, 2, or ${MAX_NEW_PER_RUN}. Better to return nothing than to publish a duplicate.
+
+TAGS — assign 2 tags per story from this FIXED taxonomy ONLY (do not invent new tags):
+  English: ${TAXONOMY_EN.join(" | ")}
+  Arabic (use these exact strings; index-aligned with the English list above): ${TAXONOMY_AR.join(" | ")}
 
 Items:
 ${fresh.map((i, idx) => {
@@ -289,8 +336,8 @@ ${fresh.map((i, idx) => {
           properties: {
             link: { type: "string", description: "Exact URL from the items list above" },
             angle: { type: "string", description: "The analytical angle for this story" },
-            tags_en: { type: "array", items: { type: "string" }, description: "2-3 English tags (e.g. 'AI advertising', 'Industry analysis')" },
-            tags_ar: { type: "array", items: { type: "string" }, description: "2-3 Arabic tags" },
+            tags_en: { type: "array", items: { type: "string", enum: TAXONOMY_EN }, minItems: 2, maxItems: 3, description: "2 English tags chosen from the approved taxonomy in the prompt. Must be exact strings from the list — no invented tags." },
+            tags_ar: { type: "array", items: { type: "string", enum: TAXONOMY_AR }, minItems: 2, maxItems: 3, description: "2 Arabic tags from the approved taxonomy. Use exact strings from the AR list, ideally index-aligned with the EN choices." },
             headline_en: { type: "string" },
             headline_ar: { type: "string", description: "MSA headline" },
           },
