@@ -1,0 +1,68 @@
+# AI News KSA — one-shot tag migration
+# Run manually from GitHub Actions tab to relabel every existing article with
+# the fixed taxonomy defined in scripts/retag.js. Dry-run first, then apply.
+
+name: Retag Articles
+
+on:
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: "Apply changes? (false = dry run, true = rewrite article tags)"
+        required: true
+        default: "false"
+        type: choice
+        options:
+          - "false"
+          - "true"
+
+jobs:
+  retag:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: "22"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run retag script
+        run: |
+          if [ "${{ inputs.apply }}" = "true" ]; then
+            node scripts/retag.js --apply
+            node scripts/generate.js
+          else
+            node scripts/retag.js
+          fi
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+
+      - name: Commit changes if apply=true
+        if: ${{ inputs.apply == 'true' }}
+        run: |
+          git config user.name "AI News KSA Retag"
+          git config user.email "retag@ainewsksa.com"
+          git pull --rebase origin main || true
+          git add articles/ public/
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          git commit -m "retag: relabel articles with fixed taxonomy"
+          for attempt in 1 2 3 4 5; do
+            if git push; then
+              echo "Pushed successfully on attempt $attempt"
+              exit 0
+            fi
+            echo "Push attempt $attempt failed, pulling with rebase and retrying..."
+            git pull --rebase origin main || true
+            sleep $((attempt * 3))
+          done
+          exit 1
