@@ -1,13 +1,16 @@
 # AI News KSA — autonomous content pipeline
-# Runs every 6 hours (00:00, 06:00, 12:00, 18:00 UTC)
+# Runs every 8 hours (00:00, 08:00, 16:00 UTC) — 3 runs/day.
+# Paired with MAX_NEW_PER_RUN=1 in pipeline.js, this caps output at 3 articles/day
+# while keeping 3 chances/day to catch breaking launches. Bump frequency or
+# MAX_NEW_PER_RUN back up once budget allows.
 # Fetches AI news RSS → Claude generates EN + AR articles → fact-checks → commits → Cloudflare Pages auto-rebuilds
 
 name: Content Pipeline
 
 on:
   schedule:
-    # Every 6 hours. Adjust as desired.
-    - cron: "0 */6 * * *"
+    # Every 8 hours: 00:00 / 08:00 / 16:00 UTC (03:00 / 11:00 / 19:00 AST).
+    - cron: "0 */8 * * *"
   # Allow manual triggering from GitHub Actions tab
   workflow_dispatch:
 
