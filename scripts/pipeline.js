@@ -83,7 +83,9 @@ const TAXONOMY_AR = [
   "تحليل قطاعي",
 ];
 
-const MAX_NEW_PER_RUN = 3;
+// Throttled to 1 story per run until budget allows more. Combined with the
+// every-8h cron in pipeline.yml that caps output at 3 articles/day.
+const MAX_NEW_PER_RUN = 1;
 const DEDUP_LOOKBACK_DAYS = 30;
 const ARTICLES_DIR = path.resolve(__dirname, "../articles");
 const ARTICLES_EN_FILE = path.join(ARTICLES_DIR, "articles.js");
@@ -143,6 +145,18 @@ const SUPABASE_ENABLED = Boolean(SUPABASE_URL && SUPABASE_KEY);
 
 // Retry on transient Anthropic errors (529 overload, 5xx, 429 rate limit)
 const RETRY_STATUSES = new Set([429, 500, 502, 503, 504, 529]);
+// Also retry on lower-level network hiccups (connection cut mid-stream, DNS
+// blips, sockets resetting on the GitHub runner). These don't carry an HTTP
+// status so they slip past the status check unless we look at .code/.name.
+const TRANSIENT_CODES = new Set([
+  "ERR_STREAM_PREMATURE_CLOSE",
+  "ECONNRESET",
+  "ETIMEDOUT",
+  "EAI_AGAIN",
+  "UND_ERR_SOCKET",
+  "ENOTFOUND",
+  "EPIPE",
+]);
 const MAX_RETRIES = 5;
 
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
@@ -166,10 +180,21 @@ async function callTool(toolName, toolSchema, userPrompt, maxTokens = 3000) {
       lastErr = e;
       const status = e?.status;
       const errType = e?.error?.error?.type || e?.error?.type || "unknown";
-      if (!RETRY_STATUSES.has(status) || attempt === MAX_RETRIES) throw e;
+      // HTTP-status retry (server errors, rate limits, 529 overload).
+      const retryStatus = RETRY_STATUSES.has(status);
+      // Network-level retry (premature stream close, conn reset, DNS hiccup,
+      // any node-fetch / undici system error without an HTTP status).
+      const retryNetwork = !status && (
+        TRANSIENT_CODES.has(e?.code) ||
+        e?.name === "FetchError" ||
+        e?.name === "AbortError" ||
+        e?.type === "system"
+      );
+      if ((!retryStatus && !retryNetwork) || attempt === MAX_RETRIES) throw e;
       // Exponential backoff with jitter: 3s, 6s, 12s, 24s, 48s, capped at 60s
       const delay = Math.min(60000, 3000 * Math.pow(2, attempt) + Math.floor(Math.random() * 1500));
-      console.warn(`  ⚠ Anthropic API ${status} (${errType}) — retry ${attempt + 1}/${MAX_RETRIES} in ${Math.round(delay / 1000)}s`);
+      const reason = retryStatus ? `${status} (${errType})` : `network ${e?.code || e?.name || "error"}`;
+      console.warn(`  ⚠ Anthropic API ${reason} — retry ${attempt + 1}/${MAX_RETRIES} in ${Math.round(delay / 1000)}s`);
       await sleep(delay);
     }
   }
@@ -314,7 +339,7 @@ If a launch-class item appears in the list (RSS or tweet), AT LEAST ONE of your 
 
 Pick UP TO ${MAX_NEW_PER_RUN} most relevant stories for "AI News KSA" (AI for marketing & growth in MENA — industry analysis publication).
 
-If fewer than ${MAX_NEW_PER_RUN} fresh non-duplicate stories exist, return only those. It is fine to return 0, 1, 2, or ${MAX_NEW_PER_RUN}. Better to return nothing than to publish a duplicate.
+If fewer than ${MAX_NEW_PER_RUN} fresh non-duplicate stories exist, return only those. Anywhere from 0 to ${MAX_NEW_PER_RUN} is fine. Better to return nothing than to publish a duplicate or a weak story.
 
 TAGS — assign 2 tags per story from this FIXED taxonomy ONLY (do not invent new tags):
   English: ${TAXONOMY_EN.join(" | ")}
