@@ -166,13 +166,18 @@ async function callTool(toolName, toolSchema, userPrompt, maxTokens = 3000) {
   let lastErr;
   for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
     try {
-      const res = await anthropic.messages.create({
+      // Use streaming mode (SSE) instead of buffered gzip response. The
+      // selectAndBrief prompt is ~60k tokens and the buffered response was
+      // consistently cut mid-stream by an upstream timeout (ERR_STREAM_PREMATURE_CLOSE).
+      // .finalMessage() resolves to the same Message object messages.create returns.
+      const stream = anthropic.messages.stream({
         model: MODEL,
         max_tokens: maxTokens,
         tools: [{ name: toolName, description: `Submit a ${toolName} payload`, input_schema: toolSchema }],
         tool_choice: { type: "tool", name: toolName },
         messages: [{ role: "user", content: userPrompt }],
       });
+      const res = await stream.finalMessage();
       const toolUse = res.content.find(c => c.type === "tool_use");
       if (!toolUse) throw new Error(`Tool use response missing for ${toolName}`);
       return toolUse.input;
@@ -348,7 +353,7 @@ TAGS — assign 2 tags per story from this FIXED taxonomy ONLY (do not invent ne
 Items:
 ${fresh.map((i, idx) => {
     const prefix = i.isTweet ? "[TWEET] " : "[RSS] ";
-    return `[${idx}] ${prefix}${i.source} — ${i.title}\n    ${i.summary.slice(0, 600)}\n    ${i.link}`;
+    return `[${idx}] ${prefix}${i.source} — ${i.title}\n    ${i.summary.slice(0, 400)}\n    ${i.link}`;
   }).join("\n\n")}`;
 
   const schema = {
