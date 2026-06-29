@@ -316,10 +316,23 @@ function getRecentPublishedTitles() {
 
 async function selectAndBrief(items, alreadyTracked) {
   console.log("[02] Selecting & briefing stories...");
-  const fresh = items.filter(i => !alreadyTracked.includes(i.link));
-  if (fresh.length === 0) {
+  const freshAll = items.filter(i => !alreadyTracked.includes(i.link));
+  if (freshAll.length === 0) {
     console.log("  No new items.");
     return [];
+  }
+  // Cap input to keep the request payload manageable — smaller prompt = faster
+  // API response = much smaller window for any transport-level cut. RSS items
+  // come in feed order (newest first per feed); tweets come from Supabase
+  // ordered by id desc (newest first). Slicing preserves recency bias.
+  const MAX_RSS = 50;
+  const MAX_TWEETS = 50;
+  const fresh = [
+    ...freshAll.filter(i => !i.isTweet).slice(0, MAX_RSS),
+    ...freshAll.filter(i => i.isTweet).slice(0, MAX_TWEETS),
+  ];
+  if (fresh.length < freshAll.length) {
+    console.log(`  Capped ${freshAll.length} → ${fresh.length} items for selection (max ${MAX_RSS} RSS + ${MAX_TWEETS} tweets)`);
   }
 
   const recentTitles = getRecentPublishedTitles();
