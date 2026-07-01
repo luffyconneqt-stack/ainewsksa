@@ -2,27 +2,33 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://ainewsksa.com/</loc>
-    <lastmod>2026-06-30</lastmod>
+    <lastmod>2026-07-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://ainewsksa.com/about.html</loc>
-    <lastmod>2026-06-30</lastmod>
+    <lastmod>2026-07-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://ainewsksa.com/ar/</loc>
-    <lastmod>2026-06-30</lastmod>
+    <lastmod>2026-07-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://ainewsksa.com/ar/about.html</loc>
-    <lastmod>2026-06-30</lastmod>
+    <lastmod>2026-07-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://ainewsksa.com/articles/anthropic-is-suing-alibaba-for-cloning-claude-across-25-000-accounts-and-gcc-ent.html</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://ainewsksa.com/articles/anthropic-launches-claude-sonnet-5-as-a-cheaper-agentic-model-and-gcc-marketing-.html</loc>
@@ -1527,6 +1533,12 @@
   <url>
     <loc>https://ainewsksa.com/articles/per-user-content-adaptation-lifecycle.html</loc>
     <lastmod>2026-05-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ainewsksa.com/ar/articles/anthropic-is-suing-alibaba-for-cloning-claude-across-25-000-accounts-and-gcc-ent.html</loc>
+    <lastmod>2026-07-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
