@@ -25,6 +25,12 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://ainewsksa.com/articles/54-of-enterprises-have-already-had-an-ai-agent-security-incident-and-gcc-marketi.html</loc>
+    <lastmod>2026-07-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://ainewsksa.com/articles/netflix-used-generative-ai-on-300-titles-in-a-single-quarter-and-mena-content-te.html</loc>
     <lastmod>2026-07-17</lastmod>
     <changefreq>monthly</changefreq>
@@ -1701,6 +1707,12 @@
   <url>
     <loc>https://ainewsksa.com/articles/per-user-content-adaptation-lifecycle.html</loc>
     <lastmod>2026-05-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ainewsksa.com/ar/articles/54-of-enterprises-have-already-had-an-ai-agent-security-incident-and-gcc-marketi.html</loc>
+    <lastmod>2026-07-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
