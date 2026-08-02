@@ -25,6 +25,12 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://ainewsksa.com/articles/railway-just-raised-100m-to-build-an-ai-native-alternative-to-aws-and-gcc-enterp.html</loc>
+    <lastmod>2026-08-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://ainewsksa.com/articles/google-just-launched-gemini-robotics-2-0-and-gcc-industrial-planners-have-a-new-.html</loc>
     <lastmod>2026-08-02</lastmod>
     <changefreq>monthly</changefreq>
@@ -1887,6 +1893,12 @@
   <url>
     <loc>https://ainewsksa.com/articles/per-user-content-adaptation-lifecycle.html</loc>
     <lastmod>2026-05-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ainewsksa.com/ar/articles/railway-just-raised-100m-to-build-an-ai-native-alternative-to-aws-and-gcc-enterp.html</loc>
+    <lastmod>2026-08-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
