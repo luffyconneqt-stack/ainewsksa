@@ -1,9 +1,22 @@
 {
   "site": "AI News KSA",
   "language": "ar",
-  "generated_at": "2026-08-08T16:45:02.449Z",
-  "article_count": 324,
+  "generated_at": "2026-08-09T02:21:46.061Z",
+  "article_count": 325,
   "articles": [
+    {
+      "slug": "cloudflare-just-launched-a-browser-built-exclusively-for-ai-agents-and-gcc-marke",
+      "title": "كلاودفلير تُطلق متصفحاً مخصصاً للوكلاء الذكيين — وفرق التسويق في دول الخليج التي تُشغّل مسارات عمل وكيلية على الويب أمام طبقة بنية تحتية جديدة تستحق التقييم الفوري",
+      "dek": "إطلاق Cloudflare لمتصفح Kitesurf المُستضاف سحابياً يُشير إلى أن البنية التحتية للوكلاء الذكيين على الويب باتت تخصصاً هندسياً قائماً بذاته، لا إضافةً هامشية.",
+      "date": "2026-08-09",
+      "tags": [
+        "الذكاء الاصطناعي الوكيلي",
+        "إطلاقات الموردين"
+      ],
+      "read_time": "قراءة 4 دقائق",
+      "url": "https://ainewsksa.com/ar/articles/cloudflare-just-launched-a-browser-built-exclusively-for-ai-agents-and-gcc-marke.html",
+      "body_html": "<p>أعلنت Cloudflare عن إطلاق Kitesurf، وهو متصفح مُستضاف سحابياً صُمِّم من الأساس للوكلاء الذكيين لا للمستخدمين البشريين. وبحسب ما أوردته TechCrunch، يستهلك المتصفح طاقةً حوسبيةً أقل مقارنةً بـ Chromium في مهام الأتمتة الشائعة، مما يُتيح للمطورين بناء وكلاء قائمين على التصفح بكفاءة أعلى."
+    },
     {
       "slug": "wired-normal-consumers-are-rejecting-ai-agents-and-gcc-marketers-building-agenti",
       "title": "وايرد: المستهلكون العاديون يرفضون وكلاء الذكاء الاصطناعي — وعلى مسوّقي منطقة الخليج بناء تجارب وكيلية تلائم سلوك المستخدم الحقيقي قبل التوسّع",
