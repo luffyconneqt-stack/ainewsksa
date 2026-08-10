@@ -628,31 +628,54 @@ function sitemap() {
   // Freshest article date drives homepage lastmod (signals Google the site updates often)
   const newestEN = articlesEN.length ? [...articlesEN].sort((a, b) => b.date.localeCompare(a.date))[0].date : new Date().toISOString().slice(0, 10);
   const newestAR = articlesAR.length ? [...articlesAR].sort((a, b) => b.date.localeCompare(a.date))[0].date : newestEN;
-  const urls = [
-    { loc: SITE.url + "/", lastmod: newestEN, changefreq: "daily", priority: "1.0" },
-    { loc: SITE.url + "/about.html", lastmod: newestEN, changefreq: "monthly", priority: "0.6" },
-    { loc: SITE.url + "/ar/", lastmod: newestAR, changefreq: "daily", priority: "1.0" },
-    { loc: SITE.url + "/ar/about.html", lastmod: newestAR, changefreq: "monthly", priority: "0.6" },
-    ...articlesEN.map(a => ({
-      loc: `${SITE.url}/articles/${a.slug}.html`,
-      lastmod: a.date,
-      changefreq: "monthly",
-      priority: "0.8"
-    })),
-    ...articlesAR.map(a => ({
-      loc: `${SITE.url}/ar/articles/${a.slug}.html`,
-      lastmod: a.date,
-      changefreq: "monthly",
-      priority: "0.8"
-    }))
+
+  // Language CLUSTERS — each cluster has one EN URL + one AR URL that are
+  // language alternates of the same page. Every <url> in a cluster carries
+  // the full xhtml:link set so Google knows they're translations, not
+  // duplicates. Without this the language pairs get bucketed as
+  // "Alternate page with proper canonical tag" and only one is indexed.
+  // Articles are paired by slug (the pipeline appends EN+AR together, so
+  // slugs match by design).
+  const arSlugs = new Set(articlesAR.map(a => a.slug));
+  const clusters = [
+    { enPath: "/",             arPath: "/ar/",             lastmod: newestEN, changefreq: "daily",   priority: "1.0" },
+    { enPath: "/about.html",   arPath: "/ar/about.html",   lastmod: newestEN, changefreq: "monthly", priority: "0.6" },
+    ...articlesEN
+      .filter(a => arSlugs.has(a.slug)) // only pair when both languages exist
+      .map(a => ({
+        enPath: `/articles/${a.slug}.html`,
+        arPath: `/ar/articles/${a.slug}.html`,
+        lastmod: a.date,
+        changefreq: "monthly",
+        priority: "0.8",
+      })),
   ];
+
+  const renderUrl = (loc, lastmod, changefreq, priority, altBlock) =>
+    `  <url>
+    <loc>${loc}</loc>
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>${changefreq}</changefreq>
+    <priority>${priority}</priority>
+${altBlock}
+  </url>`;
+
+  const urlsXml = clusters.map(c => {
+    const enUrl = SITE.url + c.enPath;
+    const arUrl = SITE.url + c.arPath;
+    const altBlock =
+`    <xhtml:link rel="alternate" hreflang="en" href="${enUrl}"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="${arUrl}"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="${enUrl}"/>`;
+    return renderUrl(enUrl, c.lastmod, c.changefreq, c.priority, altBlock)
+      + "\n"
+      + renderUrl(arUrl, c.lastmod, c.changefreq, c.priority, altBlock);
+  }).join("\n");
+
   return `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls.map(u => `  <url>
-    <loc>${u.loc}</loc>${u.lastmod ? `\n    <lastmod>${u.lastmod}</lastmod>` : ""}
-    <changefreq>${u.changefreq}</changefreq>
-    <priority>${u.priority}</priority>
-  </url>`).join("\n")}
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+${urlsXml}
 </urlset>`;
 }
 
