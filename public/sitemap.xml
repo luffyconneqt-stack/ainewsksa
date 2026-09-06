@@ -3,7 +3,7 @@
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://ainewsksa.com/</loc>
-    <lastmod>2026-09-05</lastmod>
+    <lastmod>2026-09-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://ainewsksa.com/"/>
@@ -12,7 +12,7 @@
   </url>
   <url>
     <loc>https://ainewsksa.com/ar/</loc>
-    <lastmod>2026-09-05</lastmod>
+    <lastmod>2026-09-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://ainewsksa.com/"/>
@@ -21,7 +21,7 @@
   </url>
   <url>
     <loc>https://ainewsksa.com/about.html</loc>
-    <lastmod>2026-09-05</lastmod>
+    <lastmod>2026-09-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://ainewsksa.com/about.html"/>
@@ -30,12 +30,30 @@
   </url>
   <url>
     <loc>https://ainewsksa.com/ar/about.html</loc>
-    <lastmod>2026-09-05</lastmod>
+    <lastmod>2026-09-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://ainewsksa.com/about.html"/>
     <xhtml:link rel="alternate" hreflang="ar" href="https://ainewsksa.com/ar/about.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ainewsksa.com/about.html"/>
+  </url>
+  <url>
+    <loc>https://ainewsksa.com/articles/openai-just-launched-gpt-6-astra-and-gcc-marketing-and-enterprise-teams-have-a-n.html</loc>
+    <lastmod>2026-09-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ainewsksa.com/articles/openai-just-launched-gpt-6-astra-and-gcc-marketing-and-enterprise-teams-have-a-n.html"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://ainewsksa.com/ar/articles/openai-just-launched-gpt-6-astra-and-gcc-marketing-and-enterprise-teams-have-a-n.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ainewsksa.com/articles/openai-just-launched-gpt-6-astra-and-gcc-marketing-and-enterprise-teams-have-a-n.html"/>
+  </url>
+  <url>
+    <loc>https://ainewsksa.com/ar/articles/openai-just-launched-gpt-6-astra-and-gcc-marketing-and-enterprise-teams-have-a-n.html</loc>
+    <lastmod>2026-09-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ainewsksa.com/articles/openai-just-launched-gpt-6-astra-and-gcc-marketing-and-enterprise-teams-have-a-n.html"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://ainewsksa.com/ar/articles/openai-just-launched-gpt-6-astra-and-gcc-marketing-and-enterprise-teams-have-a-n.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ainewsksa.com/articles/openai-just-launched-gpt-6-astra-and-gcc-marketing-and-enterprise-teams-have-a-n.html"/>
   </url>
   <url>
     <loc>https://ainewsksa.com/articles/ai-is-turning-the-hiring-funnel-into-a-doom-loop-and-gcc-marketing-and-talent-le.html</loc>
