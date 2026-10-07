@@ -1,9 +1,22 @@
 {
   "site": "AI News KSA",
   "language": "ar",
-  "generated_at": "2026-10-06T20:55:07.849Z",
-  "article_count": 453,
+  "generated_at": "2026-10-07T05:41:28.597Z",
+  "article_count": 454,
   "articles": [
+    {
+      "slug": "mirror-particle-s-human-behaviour-world-model-is-the-first-direct-challenge-to-l",
+      "title": "نموذج العالم السلوكي من Mirror Particle يتحدى نماذج اللغة في أبحاث المستهلكين — وعلى فِرَق التسويق في دول الخليج تقييم بنية استخباراتية جديدة قبل أن يترسّخ هذا التوجه",
+      "dek": "شركة ناشئة تبني نموذجاً للتنبؤ بالسلوك البشري من الصفر بدلاً من ضبط نماذج اللغة الكبيرة، وهو توجه يستحق متابعة دقيقة من فِرَق أبحاث المستهلكين في أسواق الخليج.",
+      "date": "2026-10-07",
+      "tags": [
+        "ذكاء اصطناعي للتسويق",
+        "تحليل قطاعي"
+      ],
+      "read_time": "قراءة 5 دقائق",
+      "url": "https://ainewsksa.com/ar/articles/mirror-particle-s-human-behaviour-world-model-is-the-first-direct-challenge-to-l.html",
+      "body_html": "<p>أعلنت شركة Mirror Particle عن إطلاقها ضمن فعالية TechCrunch Disrupt في برنامج Startup Battlefield 200، حاملةً ادعاءً جوهرياً: أن استخدام نماذج اللغة الكبيرة لمحاكاة استجابات المستهلكين — وهو ما بات يُعرف في أوساط التسويق بـ\"لعب الأدوار\" أو role-play — يمثّل قصوراً هيكلياً في منهجية أبحاث السوق، وأن الحل يكمن في بناء \"نموذج عالم\" مدرَّب من الصفر على التنبؤ بالسلوك البشري، لا على توليد النصوص."
+    },
     {
       "slug": "websites-are-blocking-ai-agents-and-gcc-e-commerce-teams-have-a-new-access-proto",
       "title": "المواقع الإلكترونية تحجب وكلاء الذكاء الاصطناعي — وعلى فرق التجارة الإلكترونية في دول الخليج بناء بروتوكول وصول جديد في كل استراتيجية تجارة وكيلية قبل أن يُرسَّخ المعيار",

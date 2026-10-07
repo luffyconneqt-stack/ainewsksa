@@ -3,7 +3,7 @@
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://ainewsksa.com/</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-07</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://ainewsksa.com/"/>
@@ -12,7 +12,7 @@
   </url>
   <url>
     <loc>https://ainewsksa.com/ar/</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-07</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://ainewsksa.com/"/>
@@ -21,7 +21,7 @@
   </url>
   <url>
     <loc>https://ainewsksa.com/about.html</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://ainewsksa.com/about.html"/>
@@ -30,12 +30,30 @@
   </url>
   <url>
     <loc>https://ainewsksa.com/ar/about.html</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://ainewsksa.com/about.html"/>
     <xhtml:link rel="alternate" hreflang="ar" href="https://ainewsksa.com/ar/about.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ainewsksa.com/about.html"/>
+  </url>
+  <url>
+    <loc>https://ainewsksa.com/articles/mirror-particle-s-human-behaviour-world-model-is-the-first-direct-challenge-to-l.html</loc>
+    <lastmod>2026-10-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ainewsksa.com/articles/mirror-particle-s-human-behaviour-world-model-is-the-first-direct-challenge-to-l.html"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://ainewsksa.com/ar/articles/mirror-particle-s-human-behaviour-world-model-is-the-first-direct-challenge-to-l.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ainewsksa.com/articles/mirror-particle-s-human-behaviour-world-model-is-the-first-direct-challenge-to-l.html"/>
+  </url>
+  <url>
+    <loc>https://ainewsksa.com/ar/articles/mirror-particle-s-human-behaviour-world-model-is-the-first-direct-challenge-to-l.html</loc>
+    <lastmod>2026-10-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ainewsksa.com/articles/mirror-particle-s-human-behaviour-world-model-is-the-first-direct-challenge-to-l.html"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://ainewsksa.com/ar/articles/mirror-particle-s-human-behaviour-world-model-is-the-first-direct-challenge-to-l.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ainewsksa.com/articles/mirror-particle-s-human-behaviour-world-model-is-the-first-direct-challenge-to-l.html"/>
   </url>
   <url>
     <loc>https://ainewsksa.com/articles/websites-are-blocking-ai-agents-and-gcc-e-commerce-teams-have-a-new-access-proto.html</loc>
