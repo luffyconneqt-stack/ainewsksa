@@ -1,9 +1,22 @@
 {
   "site": "AI News KSA",
   "language": "ar",
-  "generated_at": "2026-11-11T05:54:11.453Z",
-  "article_count": 523,
+  "generated_at": "2026-11-11T16:03:20.533Z",
+  "article_count": 524,
   "articles": [
+    {
+      "slug": "anthropic-launches-claude-meetings-and-gcc-marketing-and-growth-teams-have-a-new",
+      "title": "أنثروبيك تطلق كلود ميتينجز — وفرق التسويق والنمو في دول الخليج أمام معيار تعاون جديد في الوقت الفعلي يجب دمجه في كل سير عمل تخطيطي قبل أن تترسّخ طبقة الاجتماعات الذكية",
+      "dek": "أطلقت أنثروبيك Claude Meetings لتحويل النقاشات الوظيفية الحية إلى خطط وجداول زمنية ومهام منظّمة في الوقت الفعلي، مما يُعيد تعريف مسار الاجتماع إلى الإجراء لفرق التسويق والنمو في دول الخليج.",
+      "date": "2026-11-11",
+      "tags": [
+        "إطلاقات الموردين",
+        "القوى العاملة بالذكاء الاصطناعي"
+      ],
+      "read_time": "قراءة 5 دقائق",
+      "url": "https://ainewsksa.com/ar/articles/anthropic-launches-claude-meetings-and-gcc-marketing-and-growth-teams-have-a-new.html",
+      "body_html": "<p>أعلنت Anthropic عن إطلاق Claude Meetings، وهي ميزة تُتيح لنموذجها Claude المشاركة الفعلية في اجتماعات العمل أثناء انعقادها، لا بعد انتهائها. بينما تكتفي أدوات كثيرة بتسجيل الاجتماع وإنتاج ملخص لاحقاً، تتموضع هذه الميزة في طبقة مختلفة تماماً: التدخل الحي في لحظة صنع القرار."
+    },
     {
       "slug": "openai-s-business-profiles-turn-chatgpt-into-a-discovery-engine-gcc-marketers-ha",
       "title": "ملفات الأعمال من OpenAI تحوّل ChatGPT إلى محرك اكتشاف — على فرق التسويق في دول الخليج بناء حضورهم في هذه الطبقة الجديدة قبل أن تنضج",
