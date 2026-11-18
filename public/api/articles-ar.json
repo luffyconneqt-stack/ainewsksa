@@ -1,9 +1,22 @@
 {
   "site": "AI News KSA",
   "language": "ar",
-  "generated_at": "2026-11-17T17:33:00.861Z",
-  "article_count": 534,
+  "generated_at": "2026-11-18T07:05:40.270Z",
+  "article_count": 535,
   "articles": [
+    {
+      "slug": "microsoft-declares-copilot-the-new-os-for-work-and-gcc-marketing-teams-have-a-ne",
+      "title": "مايكروسوفت تُعلن كوبايلوت نظام التشغيل الجديد للعمل — وعلى فرق التسويق في دول الخليج تقييم بنية الإنتاجية الجديدة قبل أن تُصبح معيار المنصة السائد",
+      "dek": "أعلنت مايكروسوفت في مؤتمر Ignite أن Copilot بات \"نظام التشغيل الجديد للعمل\"، مع تضمين Word وExcel وPowerPoint داخله، وهو ما يفرض على فرق التسويق والنمو في الخليج مراجعة بنيتهم التشغيلية قبل أن تُحسم خيارات المنصة افتراضياً.",
+      "date": "2026-11-18",
+      "tags": [
+        "استراتيجية الذكاء الاصطناعي",
+        "ذكاء اصطناعي للتسويق"
+      ],
+      "read_time": "قراءة 5 دقائق",
+      "url": "https://ainewsksa.com/ar/articles/microsoft-declares-copilot-the-new-os-for-work-and-gcc-marketing-teams-have-a-ne.html",
+      "body_html": "<p>في مؤتمر Ignite، أعلنت مايكروسوفت عن إعادة تموضع جوهرية لمنتجها Copilot: بدلاً من كونه مساعداً ذكياً يعمل على هامش تطبيقات Office، بات الإطار المركزي الذي تعمل داخله Word وExcel وPowerPoint. الصياغة الرسمية التي استخدمتها الشركة هي \"نظام التشغيل الجديد للعمل\"، وهي صياغة تحمل دلالة استراتيجية أبعد من كونها مجرد تحديث لمنتج."
+    },
     {
       "slug": "daydream-launches-an-ai-personal-stylist-that-shops-for-you-and-gcc-fashion-and-",
       "title": "دريم تُطلق مساعداً شخصياً بالذكاء الاصطناعي يتولى التسوق نيابةً عنك — وعلى فرق التجارة الإلكترونية والأزياء في دول مجلس التعاون بناء هذه التجربة الوكيلية قبل أن يرسّخها السوق",
